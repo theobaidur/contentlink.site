@@ -1,0 +1,3 @@
+<app-default-layout *ngIf="page && page?.page_layout?.layout_type === 'default_layout'" [page]="page"></app-default-layout>
+<app-inner-page-sidebar-layout *ngIf="page && page?.page_layout?.layout_type === 'inner_page_with_sidebar'"  [page]="page"></app-inner-page-sidebar-layout>
+<app-inner-page-no-sidebar-layout *ngIf="page && page?.page_layout?.layout_type === 'inner_page_no_sidebar'"  [page]="page"></app-inner-page-no-sidebar-layout>

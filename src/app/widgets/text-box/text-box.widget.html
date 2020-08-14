@@ -1,0 +1,18 @@
+<div class="row text-box" [ngStyle]="style" [ngClass]="type">
+    <div class="col-12" [ngClass]="{'col-md-6': config.text_box_type !== 'content-only'}">
+        <div class="mb-4" *ngIf="data.title || data.sub_title">
+            <h2 class="title" *ngIf="data.title">{{ data.title }}</h2>
+            <h5 *ngIf="data.sub_title" class="text-muted sub_title">{{ data.sub_title }}</h5>
+        </div>
+        <div [innerHTML]="data.content"></div>
+        <div *ngIf="config.button_text" class="text-center">
+            <a widgetLink [href]="config.button_url" class="btn btn-lg btn-primary">{{ config.button_text }}</a>
+        </div>
+    </div>
+    <div class="col-12" [ngClass]="{'col-md-6': config.text_box_type !== 'content-only'}" *ngIf="config.text_box_type !== 'content-only'">
+        <img *ngIf="config.text_box_type === 'content-with-image'" [src]="data.image | src" class="img-fluid">
+        <div class="embed-responsive embed-responsive-16by9" *ngIf="config.text_box_type === 'content-with-embedded-media'">
+            <iframe class="embed-responsive-item" [src]="config.embedded_media | trustUrl" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>

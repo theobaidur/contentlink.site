@@ -1,0 +1,163 @@
+@import '~tiny-slider/src/tiny-slider.scss';
+@import '~bootswatch/dist/lumen/variables';
+
+.carousel-wrapper{
+    .widget-title-area{
+        padding-top: 40px;
+    }
+    .loading-spinner{
+        width: 100%;
+    }
+    position: relative;
+    overflow: hidden;
+
+    &.full-width,
+    &.full-width .tns-item
+    {
+        .overlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 10;
+        }
+        .tns-outer,
+        .tns-items{
+            height: calc(100vh - 60px);
+        }
+        img{
+            min-width: 100%;
+            min-height: 100%;
+        }
+        .caption{
+            position: absolute;
+            z-index: 11;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 400px;
+            h3{
+                line-height: 1.5;
+            }
+            
+        }
+    }
+
+    &.multi-slide,
+    &.multi-slide .tns-item
+    {
+        padding-bottom: 50px;
+        .tns-outer{
+            height: 320px;
+        }
+
+        img{
+            height: 220px;
+        }
+
+        .caption h3{
+            font-size: 16px;
+        }
+        .caption p{
+            font-size: 14px;
+        }
+    }
+
+    &.multi-image,
+    &.multi-image .tns-item
+    {
+        padding-bottom: 50px;
+        .tns-outer{
+            height: 150px;
+        }
+
+        img{
+            height: 150px;
+        }
+
+        .caption{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 12;
+            background: transparent;
+        }
+
+        .caption h1{
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 0;
+        }
+        .caption p{
+            font-size: 14px;
+            display: none;
+        }
+    }
+
+    
+
+    &.multi-image .tns-item{
+        &:hover .caption{
+            bottom: 0;
+        }
+    }
+
+    .tns-item{
+        position: relative;
+        overflow: hidden;
+        .caption{
+            background: rgba($color: #106a8c, $alpha: 1);
+            padding: 15px;
+
+            h1{color: rgba($color: $white, $alpha: 1.0)}
+            h3{color: rgba($color: $white, $alpha: .8)}
+        }
+        
+    }
+    .tns-controls{
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        transform: translateY(-50%);
+        z-index: 1;
+
+        button{
+            border: none;
+            background: none;
+            color: rgba($color: $primary, $alpha: .5);
+
+            &:hover{
+                color: rgba($color: $primary, $alpha: 1);
+            }
+
+        }
+    }
+
+    .tns-nav{
+        position: absolute;
+        bottom: 10px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        button{
+            margin: 2px;
+            width: 20px;
+            height: 5px;
+            border: none;
+            background: rgba($color: $primary, $alpha: .5);
+
+            &:hover,
+            &.tns-nav-active{
+                background: rgba($color: $primary, $alpha: 1);
+            }
+        }
+    }
+
+}

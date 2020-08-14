@@ -1,0 +1,34 @@
+.widget-title-area{
+    position: relative;
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+.card{
+    &.card-with-thumb,
+    &.card-with-icon
+    {
+        flex-direction: row;
+        .card-img-icon{
+            height: 100%;
+            img{
+                width: 100%;
+            }
+        }
+    }
+    &.card-with-image{
+        height: 100%;
+        .card-img-icon{
+            width: 100%;
+            img{
+                width: 100%;
+            }
+        }
+    }
+    
+}
+.card-image-icon-container{
+    text-align: center;
+    img{
+        max-width: 90%;
+    }
+}

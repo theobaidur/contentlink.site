@@ -1,0 +1,17 @@
+<div class="bg-primary">
+    <footer class="container">
+        <ul class="navbar-nav mx-auto flex-row justify-content-center">
+            <li class="nav-item" *ngFor="let item of menuItems | async">
+                <a *ngIf="absUrl(item.url)" [href]="item.url" class="nav-link text-white">{{ item.title }}</a>
+                <a *ngIf="!absUrl(item.url)" [routerLink]="item.url" class="nav-link text-white">{{ item.title }}</a>
+            </li>
+        </ul>
+    </footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center text-white">
+                © 2020 MERP SYSTEMS INC. | Innovative Technology, Intuitive Solutions.
+            </div>
+        </div>
+    </div>
+</div>

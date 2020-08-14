@@ -1,0 +1,1 @@
+export { info as tInfo, success as tSuccess, warning as tWarning ,error as tError} from 'toastr';

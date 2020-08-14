@@ -1,0 +1,24 @@
+<div class="col-12 widget-title-area" *ngIf="status === 'loading'">
+    <div class="spinner-area">
+        <span class="spinner round"></span>
+    </div>
+</div>
+<ul class="list-unstyled" *ngIf="status === 'loaded'"  [ngStyle]="style">
+    <li class="position-relative">
+        <h3 class="mb-2">{{ widget.title }}</h3>
+    </li>
+    <li class="media mb-2" *ngFor="let item of items | adapt:map:fields">
+        <img *ngIf="config.menu_type === 'title-subtitle-image'" [src]="item.image | src" class="mr-3">
+        <a widgetLink [href]="[config.detail_page, dataDetail.name, item.id].join('/')">
+            <div class="media-body">
+              <h5 class="mt-0 mb-1">{{ item.title }}</h5>
+              <p class="text-truncate" *ngIf="config.menu_type === 'title-subtitle' || config.menu_type === 'title-subtitle-image'">
+                  {{ item.sub_title }}
+              </p>
+            </div>
+        </a>
+    </li>
+    <li *ngIf="hasMoreItems">
+        <widget-btn btnClass="btn btn-sm btn-primary" [busy]="loading" (click)="loadMore()" label="Load More"></widget-btn>
+    </li>
+  </ul>
