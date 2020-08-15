@@ -118,4 +118,97 @@ body {
     }
   }
 
-  
+  /*
+  widget box customization
+  */
+
+  .widget-title-area h2{
+    text-transform: uppercase;
+  }
+
+  .carousel-wrapper.full-width{
+    padding-top: 0;
+    padding-bottom: 0;
+    .tns-carousel-item{
+      height: calc(100vh - 60px);
+    }
+  }
+
+  .homepage-top-carousel.widget__carousel{
+    .caption{
+      background: rgba($color: $black, $alpha: 1.0);
+      h1{
+        color: $success !important;
+      }
+    }
+  }
+
+  .widget__text-box .btn,
+  .widget__card .btn,
+  .widget__form button
+  {
+    background: $success;
+    color: $white;
+  }
+
+  .widget__card{
+    &.homepage-services-widget{
+      background-color: $primary;
+      padding-bottom: 30px;
+      margin-top: 30px;
+      .widget-title-area h2,
+      .widget-title-area p{
+        color: $white;
+      }
+    }
+  }
+  .widget__text-box{
+    &.homepage-careers-widget{
+      background-color: $primary;
+      padding-bottom: 30px;
+      margin-top: 30px;
+      .title,
+      p{
+        color: $white;
+        text-align: center;
+      }
+    }
+  }
+
+  .widget__carousel{
+    &.homepage-certificates-widget{
+      background-color: #0f6485;
+      .widget-title-area h2,
+      .widget-title-area p{
+        color: $white;
+      }
+
+      .caption h1{
+        color: $white !important;
+      }
+    }
+  }
+
+  .widget__card.inner-page-no-sidebar,
+  .widget__card.inner-page-sidebar
+  {
+    padding-bottom: 30px;
+    margin-top: 30px;
+  }
+
+  .widget__text-box.inner-page-no-sidebar,
+  .widget__text-box.inner-page-sidebar{
+    >.text-box{
+      padding-top: 0;
+    }
+  }
+  .widget__menu.container{
+    >ul{
+      padding-top: 0;
+    }
+    .btn{
+      background: $success;
+      color: $white;
+    }
+    
+  }

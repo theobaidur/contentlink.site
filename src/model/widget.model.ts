@@ -1,4 +1,5 @@
 import { Model } from './_base.model';
+import { WidgetConfig } from './widget-config';
 
 export type Widget = Model<{
     title?: string;
@@ -7,7 +8,7 @@ export type Widget = Model<{
     widget_type?: string;
     widget_location?: string;
     widget_config?: string;
-    widget_config_parsed?: {[key: string]: any};
+    widget_config_parsed?: WidgetConfig<{}>;
     content_title?: string;
     content_body?: string;
     data_type_detail?: {[key: string]: any};

@@ -1,4 +1,9 @@
-export type WidgetConfig<T> = T & {[key: string]: any, hide_widget_title?: boolean, map?: {[key: string]: any}}
+export type WidgetConfig<T> = T & {
+    [key: string]: any, 
+    hide_widget_title?: boolean, 
+    map?: {[key: string]: any},
+    widget_class?: string
+}
 
 export type CarouselWidgetConfig = WidgetConfig<{
     map?: {

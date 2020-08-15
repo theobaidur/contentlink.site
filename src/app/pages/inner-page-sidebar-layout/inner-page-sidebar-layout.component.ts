@@ -20,6 +20,17 @@ export class InnerPageSidebarLayoutComponent implements OnInit {
     }
     return [];
   }
+
+  wrapperClass(widget: Widget){
+    const classes = [`widget__${widget.widget_type}`];
+    if(widget.widget_config_parsed?.widget_class){
+      classes.push(widget.widget_config_parsed.widget_class);
+    }
+    classes.push('container inner-page-sidebar');
+    return classes;
+  }
+
+
   trackByFn(widget: Widget){
     return widget.id;
   }

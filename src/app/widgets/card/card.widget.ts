@@ -49,7 +49,7 @@ export class CardWidget extends BaseWidget<CardWidgetConfig> {
   loadNextPage(){
     const page_number = this.current_page+1;
     this.loading = true;
-    return this.http.get<PaginatedResult<any[]>>(`${environment.apiRoot}/api/widget/${this.widget.id}?page[number]=${page_number}&page[size]=15`).pipe(
+    return this.http.get<PaginatedResult<any[]>>(`${environment.apiRoot}/api/widget/${this.widget.id}?page[number]=${page_number}&page[size]=4`).pipe(
       map(response=>{
         this.current_page = response.current_page;
         this.last_page = response.last_page;

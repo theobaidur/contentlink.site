@@ -5,6 +5,9 @@ export class BaseWidget<C = {}>{
     status = 'loading';
     loading = false;
     fields = [];
+    get type(): string{
+      return null;
+    }
     get widget(): Widget{
       return this._widget || {};
     }
@@ -24,14 +27,6 @@ export class BaseWidget<C = {}>{
   
     get map(){
       return this.config.map || {}
-    }
-
-    get style(){
-      const style: any = {}
-      if(this.config.bg){
-        style['background'] = this.config.bg;
-      }
-      return style;
     }
 
     trackByFn(model: any){

@@ -3,24 +3,24 @@
     <div class="row">
         <div class="col-md-8 col-12">
             <ng-container *ngFor="let widget of widgets('body'); trackBy: trackByFn">
-                <widget-banner [widget]="widget" *ngIf="widget.widget_type === 'banner'"></widget-banner>
-                <widget-card [widget]="widget" *ngIf="widget.widget_type === 'card'"></widget-card>
-                <widget-carousel [widget]="widget" *ngIf="widget.widget_type === 'carousel'"></widget-carousel>
-                <widget-form [widget]="widget" *ngIf="widget.widget_type === 'form'"></widget-form>
-                <widget-list [widget]="widget" *ngIf="widget.widget_type === 'list'"></widget-list>
-                <widget-menu [widget]="widget" *ngIf="widget.widget_type === 'menu'"></widget-menu>
-                <widget-text-box [widget]="widget" *ngIf="widget.widget_type === 'text-box'"></widget-text-box>
+                <widget-banner [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'banner'"></widget-banner>
+                <widget-card [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'card'"></widget-card>
+                <widget-carousel [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'carousel'"></widget-carousel>
+                <widget-form [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'form'"></widget-form>
+                <widget-list [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'list'"></widget-list>
+                <widget-menu [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'menu'"></widget-menu>
+                <widget-text-box [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'text-box'"></widget-text-box>
             </ng-container>
         </div>
         <div class="col-md-4 col-12">
             <ng-container *ngFor="let widget of widgets('sidebar'); trackBy: trackByFn">
-                <widget-banner [widget]="widget" *ngIf="widget.widget_type === 'banner'"></widget-banner>
-                <widget-card [widget]="widget" *ngIf="widget.widget_type === 'card'"></widget-card>
-                <widget-carousel [widget]="widget" *ngIf="widget.widget_type === 'carousel'"></widget-carousel>
-                <widget-form [widget]="widget" *ngIf="widget.widget_type === 'form'"></widget-form>
-                <widget-list [widget]="widget" *ngIf="widget.widget_type === 'list'"></widget-list>
-                <widget-menu [widget]="widget" *ngIf="widget.widget_type === 'menu'"></widget-menu>
-                <widget-text-box [widget]="widget" *ngIf="widget.widget_type === 'text-box'"></widget-text-box>
+                <widget-banner [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'banner'"></widget-banner>
+                <widget-card [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'card'"></widget-card>
+                <widget-carousel [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'carousel'"></widget-carousel>
+                <widget-form [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'form'"></widget-form>
+                <widget-list [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'list'"></widget-list>
+                <widget-menu [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'menu'"></widget-menu>
+                <widget-text-box [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.widget_type === 'text-box'"></widget-text-box>
             </ng-container>
         </div>
     </div>

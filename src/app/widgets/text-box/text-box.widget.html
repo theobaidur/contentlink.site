@@ -1,4 +1,8 @@
-<div class="row text-box" [ngStyle]="style" [ngClass]="type">
+<div class="row text-box" [ngClass]="type">
+    <div class="col-12 widget-title-area" *ngIf="!config.hide_widget_title">
+        <h2 class="text-center">{{ widget.title }}</h2>
+        <p class="text-center text-muted">{{ widget.text }}</p>
+    </div>
     <div class="col-12" [ngClass]="{'col-md-6': config.text_box_type !== 'content-only'}">
         <div class="mb-4" *ngIf="data.title || data.sub_title">
             <h2 class="title" *ngIf="data.title">{{ data.title }}</h2>
@@ -6,7 +10,7 @@
         </div>
         <div [innerHTML]="data.content"></div>
         <div *ngIf="config.button_text" class="text-center">
-            <a widgetLink [href]="config.button_url" class="btn btn-lg btn-primary">{{ config.button_text }}</a>
+            <a widgetLink [href]="config.button_url" class="btn btn-lg">{{ config.button_text }}</a>
         </div>
     </div>
     <div class="col-12" [ngClass]="{'col-md-6': config.text_box_type !== 'content-only'}" *ngIf="config.text_box_type !== 'content-only'">

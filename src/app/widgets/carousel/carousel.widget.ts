@@ -106,19 +106,29 @@ export class CarouselWidget extends BaseWidget<CarouselWidgetConfig> {
   ) { 
     super();
   }
-
+/**
+ * <div class="carousel-item">
+            <div class="image-container">
+            </div>
+            <div class="caption">
+              ${r.title ? `<h1>${r.title}</h1>`:``}
+              ${r.caption ? `<h3 class="mb-0 ${this.config.carousel_type === 'full-width' ? ``: `text-truncate`}">${r.caption}</h3>`:``}
+              ${r.button_text ? `<a class="btn btn-sm" href="${r.button_url}">${r.button_text}</a>`: ``}
+            </div>
+          </div>
+ */
   ngAfterViewInit(): void {
     this.getSlides().subscribe(result=>{
       if(result && Array.isArray(result)){
         const template = result.map(r=>transform<any>(r, this.map, this.fields)).map(r=>`
-          <div class="tns-items">
-            <div class="w-100 overflow-hidden text-center">
+          <div class="tns-carousel-item">
+            <div class="image-container">
               <img src="${src(r.image)}" />
             </div>
             <div class="caption">
               ${r.title ? `<h1>${r.title}</h1>`:``}
               ${r.caption ? `<h3 class="mb-0 ${this.config.carousel_type === 'full-width' ? ``: `text-truncate`}">${r.caption}</h3>`:``}
-              ${r.button_text ? `<a class="btn btn-sm btn-primary" href="${r.button_url}">${r.button_text}</a>`: ``}
+              ${r.button_text ? `<a class="btn btn-sm" href="${r.button_url}">${r.button_text}</a>`: ``}
             </div>
           </div>
         `).join('');

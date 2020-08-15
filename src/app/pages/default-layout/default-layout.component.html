@@ -1,4 +1,4 @@
-<div [ngClass]="{'container-fluid': widget.widget_type === 'carousel', 'container': widget.widget_type !== 'carousel'}" *ngFor="let widget of widgets('body'); trackBy: trackByFn"> 
+<div [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets('body'); trackBy: trackByFn"> 
     <widget-banner [widget]="widget" *ngIf="widget.widget_type === 'banner'"></widget-banner>
     <widget-card [widget]="widget" *ngIf="widget.widget_type === 'card'"></widget-card>
     <widget-carousel [widget]="widget" *ngIf="widget.widget_type === 'carousel'"></widget-carousel>
