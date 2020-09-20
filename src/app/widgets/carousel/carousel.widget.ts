@@ -60,10 +60,10 @@ export class CarouselWidget extends BaseWidget<CarouselWidgetConfig> {
       items,
       slideBy: this.config.carousel_type === 'full-width' ? 'page' : 1,
       mouseDrag: true,
-      autoplay: false,
+      autoplay: true,
       autoplayButton: false,
       autoplayButtonOutput: null,
-      animateDelay: 200000,
+      animateDelay: 2000,
       gutter: this.config.carousel_type === 'full-width'? null : 10,
       controls: false,
       controlsText: ['<i class="fas fa-chevron-left fa-2x"></i>', '<i class="fas fa-chevron-right fa-2x"></i>'],
@@ -106,17 +106,6 @@ export class CarouselWidget extends BaseWidget<CarouselWidgetConfig> {
   ) { 
     super();
   }
-/**
- * <div class="carousel-item">
-            <div class="image-container">
-            </div>
-            <div class="caption">
-              ${r.title ? `<h1>${r.title}</h1>`:``}
-              ${r.caption ? `<h3 class="mb-0 ${this.config.carousel_type === 'full-width' ? ``: `text-truncate`}">${r.caption}</h3>`:``}
-              ${r.button_text ? `<a class="btn btn-sm" href="${r.button_url}">${r.button_text}</a>`: ``}
-            </div>
-          </div>
- */
   ngAfterViewInit(): void {
     this.getSlides().subscribe(result=>{
       if(result && Array.isArray(result)){

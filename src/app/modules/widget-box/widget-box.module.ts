@@ -17,9 +17,10 @@ import { TrustUrlPipe } from '../../widgets/pipes/trust-url.pipe';
 import { PagePropPipe } from '../../widgets/pipes/page-prop.pipe';
 import { InnerPageTitleComponent } from '../../widgets/inner-page-title/inner-page-title.component';
 import { FormsModule } from '@angular/forms';
+import { EllipsePipe } from '../../widgets/ellipse.pipe';
 
 @NgModule({
-  declarations: [BannerWidget, CardWidget, CarouselWidget, ContentBoxWidget, FormWidget, ListWidget, MenuWidget, TextBoxWidget, AdaptPipe, LinkDirective, BtnComponent, TrustUrlPipe, PagePropPipe, InnerPageTitleComponent],
+  declarations: [BannerWidget, CardWidget, CarouselWidget, ContentBoxWidget, FormWidget, ListWidget, MenuWidget, TextBoxWidget, AdaptPipe, LinkDirective, BtnComponent, TrustUrlPipe, PagePropPipe, InnerPageTitleComponent, EllipsePipe],
   imports: [
     CommonModule,
     FormsModule,

@@ -5,15 +5,22 @@ $fa-font-path:  "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
 
-@import '~bootswatch/dist/lumen/variables';
+@import '~bootswatch/dist/pulse/variables';
 // @import '~bootstrap-material-design/scss/bootstrap-material-design.scss';
 @import '~bootstrap/scss/bootstrap.scss';
-@import '~bootswatch/dist/lumen/bootswatch';
+@import '~bootswatch/dist/pulse/bootswatch';
 
-$spinner-color: $primary; 
+$cblue: #0b5f7f;
+
+
+$spinner-color: $cblue; 
 $spinner-accent: #FFFFFF;
 @import "~scss-spinners/spinners";
 @import "~toastr/toastr.scss";
+
+$cgreen: #069548;
+$orange:  #fd7e14;
+$yellow:  #ff851b;
 
 #busy{
     position: fixed;
@@ -118,9 +125,58 @@ body {
     }
   }
 
+  header .navbar{
+    background: $cblue !important;
+    border-bottom: solid #004a66 4px;
+  }
+
+  .navbar-light .navbar-nav{
+    .nav-item {
+      .nav-link{
+        color: rgba($color: $cgreen, $alpha: .8);
+      }
+      &.active > .nav-link,
+      &:hover > .nav-link{
+        color: rgba($color: $cgreen, $alpha: 1) !important;
+      } 
+    }
+  }
+
+  app-inner-page-no-sidebar-layout{
+    .inner-page-title{
+      background: url('./assets/bg4.jpg') center/cover no-repeat;
+    }
+  }
+
+  app-inner-page-sidebar-layout{
+    .inner-page-title{
+      background: url('./assets/bg5.jpg') center/cover no-repeat;
+    }
+  }
+
+  .inner-page-title{
+    height: 200px;
+    background: url('./assets/bg2.jpg') center top/cover no-repeat;
+    >div{
+      padding-top: 30px;
+      padding-bottom: 30px;
+      background: rgba($color: $cblue, $alpha: .6);
+        h2{
+          color: $white !important;
+          margin-bottom: 0;
+        }
+        p{
+          color: rgba($color: $white, $alpha: .7) !important;
+          margin-bottom: 0;
+        }
+    }
+  }
+
   /*
   widget box customization
   */
+
+
 
   .widget-title-area h2{
     text-transform: uppercase;
@@ -136,9 +192,12 @@ body {
 
   .homepage-top-carousel.widget__carousel{
     .caption{
-      background: rgba($color: $black, $alpha: 1.0);
+      background: rgba($color: $cblue, $alpha: .8);
       h1{
-        color: $success !important;
+        color: $white !important;
+      }
+      h3{
+        color: rgba($color: $white, $alpha: .7) !important;
       }
     }
   }
@@ -147,24 +206,41 @@ body {
   .widget__card .btn,
   .widget__form button
   {
-    background: $success;
+    background: $orange;
     color: $white;
+    font-weight: bold;
   }
 
   .widget__card{
-    &.homepage-services-widget{
-      background-color: $primary;
+    &.homepage-services-widget,
+    &.services-widget
+    {
+      .card-img-icon{
+        background-color: $cgreen;
+        position: relative;
+        height: 150px;
+
+        img{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+          width: auto !important;
+          height: auto !important;
+        }
+      }
       padding-bottom: 30px;
       margin-top: 30px;
       .widget-title-area h2,
       .widget-title-area p{
-        color: $white;
+        color: $cgreen;
       }
     }
   }
   .widget__text-box{
+
     &.homepage-careers-widget{
-      background-color: $primary;
+      background-color: rgba($color: $cblue, $alpha: 1);
       padding-bottom: 30px;
       margin-top: 30px;
       .title,
@@ -172,19 +248,31 @@ body {
         color: $white;
         text-align: center;
       }
+
+      .btn{
+        background: $orange !important;
+        color: $white !important;
+      }
+    }
+
+    &.homepage-about-us-widget{
+      .title{
+        color: $cgreen;
+        text-align: center;
+      }
     }
   }
 
   .widget__carousel{
     &.homepage-certificates-widget{
-      background-color: #0f6485;
+      // background-color: #0f6485;
       .widget-title-area h2,
       .widget-title-area p{
-        color: $white;
+        color: $cgreen;
       }
 
       .caption h1{
-        color: $white !important;
+        color: $cgreen !important;
       }
     }
   }
@@ -207,8 +295,28 @@ body {
       padding-top: 0;
     }
     .btn{
-      background: $success;
+      background: $orange;
       color: $white;
     }
     
+  }
+
+  .carousel-wrapper.multi-image .caption h1{
+    color: $yellow !important;
+    font-weight: bold;
+  }
+
+  .widget__carousel.homepage-services-widget .widget-title-area h2,
+  .widget__carousel.homepage-partners-widget .widget-title-area h2,
+  .widget__form.homepage-contact-us-widget .widget-title-area h2{
+    color: $cgreen;
+  }
+
+  .service-menu .media-area{
+    background-color: $cgreen;
+  }
+
+  .service-menu li>a,
+  .leadership-menu li>a{
+    color: $cblue;
   }

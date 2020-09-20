@@ -1,6 +1,6 @@
 export type WidgetConfig<T> = T & {
-    [key: string]: any, 
-    hide_widget_title?: boolean, 
+    [key: string]: any,
+    hide_widget_title?: boolean,
     map?: {[key: string]: any},
     widget_class?: string
 }
@@ -9,7 +9,7 @@ export type CarouselWidgetConfig = WidgetConfig<{
     map?: {
         image?: string,
         title?: string;
-        caption?: string,
+        text?: string,
         button_text?: string,
         button_url?: string
     },
@@ -39,7 +39,7 @@ export type TextBoxWidgetConfig = WidgetConfig<{
     map?: {
         title?: string,
         sub_title?: string,
-        content?: string,
+        text?: string,
         image?: string,
         button_text?: string,
         button_url?: string

@@ -7,13 +7,15 @@
     <li class="position-relative">
         <h3 class="mb-2">{{ widget.title }}</h3>
     </li>
-    <li class="media mb-2" *ngFor="let item of items | adapt:map:fields">
-        <img *ngIf="config.menu_type === 'title-subtitle-image'" [src]="item.image | src" class="mr-3">
-        <a widgetLink [href]="[config.detail_page, dataDetail.name, item.id].join('/')">
+    <li class="mb-2" *ngFor="let item of items | adapt:map:fields">
+        <a widgetLink [href]="[config.detail_page, dataDetail.name, item.id].join('/')" class="d-flex flex-row">
+            <span *ngIf="config.menu_type === 'title-subtitle-image'" class="media-area mr-3">
+                <img [src]="item.image | src">
+            </span>
             <div class="media-body">
               <h5 class="mt-0 mb-1">{{ item.title }}</h5>
-              <p class="text-truncate" *ngIf="config.menu_type === 'title-subtitle' || config.menu_type === 'title-subtitle-image'">
-                  {{ item.sub_title }}
+              <p *ngIf="config.menu_type === 'title-subtitle' || config.menu_type === 'title-subtitle-image'">
+                  {{ item.sub_title | ellipse:40 }}
               </p>
             </div>
         </a>

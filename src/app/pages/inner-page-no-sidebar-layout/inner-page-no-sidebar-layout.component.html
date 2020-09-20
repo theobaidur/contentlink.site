@@ -1,5 +1,5 @@
 <widget-inner-page-title *ngIf="page?.page_config_parsed?.page_title" [title]="page?.page_config_parsed?.page_title" [sub_title]="page?.page_config_parsed?.page_description"></widget-inner-page-title>
-<div [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets('body'); trackBy: trackByFn"> 
+<div class="inner-page-container" [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets('body'); trackBy: trackByFn"> 
     <widget-banner [widget]="widget" *ngIf="widget.widget_type === 'banner'"></widget-banner>
     <widget-card [widget]="widget" *ngIf="widget.widget_type === 'card'"></widget-card>
     <widget-carousel [widget]="widget" *ngIf="widget.widget_type === 'carousel'"></widget-carousel>
