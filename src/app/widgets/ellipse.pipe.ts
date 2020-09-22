@@ -6,6 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class EllipsePipe implements PipeTransform {
 
   transform(value: string, len=Infinity){
+    if(!value){
+      return '';
+    }
     if(value.length < len){
       return value;
     }

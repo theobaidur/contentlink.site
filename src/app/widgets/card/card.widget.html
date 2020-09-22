@@ -1,31 +1,26 @@
 <div class="row">
-    <div class="col-12 widget-title-area" *ngIf="status === 'loading'">
-        <h2 class="text-center">&nbsp;</h2>
-        <p class="text-center text-muted">&nbsp;</p>
-        <div class="spinner-area">
-            <span class="spinner round"></span>
-        </div>
+    <div class="col-12 widget-title-area" *ngIf="widget?.ShowWidgetTitle === 'True'">
+        <h2 class="text-center">{{ widget.Name }}</h2>
     </div>
-    <div class="col-12 widget-title-area" *ngIf="status === 'loaded' && !config.hide_widget_title">
-        <h2 class="text-center">{{ widget.title }}</h2>
-        <p class="text-center text-muted">{{ widget.text }}</p>
-    </div>
-    <div class="col-md-3 col-sm-6 col-12 mb-4" *ngFor="let card of cards | adapt:map:fields; trackBy: trackByFn">
-        <div class="card align-items-center" [ngClass]="config.card_type">
+    <div class="col-md-3 col-sm-6 col-12 mb-4" *ngFor="let card of data | slice:0:(currentPage * pageSize); trackBy: trackByFn">
+        <div class="card align-items-center" [ngClass]="card.card_type">
             <div class="card-img-icon p-1">
-                <i *ngIf="config.card_type === 'card-with-icon'" class="{{ card.icon_class }}"></i>
-                <img *ngIf="config.card_type === 'card-with-image' || config.card_type === 'card-with-thumb'" [src]="card.image | src">
+                <i *ngIf="card.card_type === 'card-with-icon'" class="{{ card.icon }}"></i>
+                <img *ngIf="card.card_type === 'card-with-image' || card.card_type === 'card-with-thumb'" [src]="card.image | src">
             </div>
             <div class="card-body overflow-hidden d-flex flex-column w-100">
-                <h5 class="card-title" [ngClass]="{'text-truncate': config.card_type !== 'card-with-image'}" *ngIf="card.title">{{ card.title }}</h5>
+                <h5 class="card-title" [ngClass]="{'text-truncate': card.card_type !== 'card-with-image'}" *ngIf="card.title">{{ card.title }}</h5>
                 <p *ngIf="card.sub_title" class="text-justified text-truncate text-muted">{{ card.sub_title }}</p>
-                <div *ngIf="card.text" [ngClass]="{'text-truncate': config.card_type !== 'card-with-image'}" class="text-justified" [innerHTML]="card.text"></div>
+                <div *ngIf="card.text" class="text-justified text-truncate" [innerHTML]="card.text"></div>
                 <div class="flex-grow-1 pb-2"></div>
-                <a *ngIf="config.excerpt" widgetLink [href]="[config.detail_page,dataDetail.name,card.id].join('/')" class="btn btn-sm btn-block">Read More</a>
+                <a *ngIf="(url | async) && widget.ButtonText" [routerLink]="url | async" [queryParams]="queryParam(card)" class="btn btn-sm btn-block">{{ widget.ButtonText }}</a>
             </div>
         </div>
     </div>
-    <div class="col-12 d-flex flex-row justify-content-center" *ngIf="hasMoreItems">
-        <widget-btn btnClass="btn btn-lg" [busy]="loading" (click)="loadMore()" label="Load More"></widget-btn>
+    <div class="col-12 d-flex flex-row justify-content-center" *ngIf="widget?.EnablePagination === 'True' && this.hasMore">
+        <widget-btn btnClass="btn btn-lg" (click)="loadMore()" label="Load More"></widget-btn>
+    </div>
+    <div class="col-12 d-flex flex-row justify-content-center" *ngIf="!(widget?.EnablePagination === 'True') && listPage">
+      <widget-btn btnClass="btn btn-lg" [goto]="listPage?.PageURL" label="All"></widget-btn>
     </div>
 </div>

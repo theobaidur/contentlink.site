@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Page } from 'src/model/page.model';
-import { Widget } from 'src/model/widget.model';
+import { DataType, Page, PageWidget, Type, WidgetLocation } from 'src/json';
 
 @Component({
   selector: 'app-inner-page-sidebar-layout',
@@ -9,30 +8,61 @@ import { Widget } from 'src/model/widget.model';
 })
 export class InnerPageSidebarLayoutComponent implements OnInit {
   @Input() page: Page;
+
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  get locations(){
+    return WidgetLocation;
   }
 
-  widgets(location:string){
-    if(this.page && this.page.widgets){
-      return this.page.widgets.filter(w=>w.widget_location === location);
+  get type(){
+    return Type;
+  }
+
+  get dataType(){
+    return DataType;
+  }
+
+  widgets(location:WidgetLocation){
+    if(this.page && this.page.PageWidgets){
+      return this.page.PageWidgets.filter(w=>w.ShowIn === location);
     }
     return [];
   }
 
-  wrapperClass(widget: Widget){
-    const classes = [`widget__${widget.widget_type}`];
-    if(widget.widget_config_parsed?.widget_class){
-      classes.push(widget.widget_config_parsed.widget_class);
+  wrapperClass(widget: PageWidget){
+    let type = '';
+    if(widget.DataType === DataType.EntityData){
+      if(widget.Type === Type.Carousel){
+        type = 'carousel';
+      }if(widget.Type === Type.CardList){
+        type = 'card_list';
+      }if(widget.Type === Type.List){
+        type = 'list';
+      }if(widget.Type === Type.DynamicDataView){
+        type = 'dynamic-data-view';
+      }
+    } else if(widget.DataType === DataType.RichText){
+      type = 'rich-text';
+    } else if(widget.DataType === DataType.Menu){
+      type = 'menu';
+    }else if(widget.DataType === DataType.Html){
+      type = 'html';
+    }
+
+    const classes = [`widget__${type}`];
+    if(widget.CustomCSSClass){
+      classes.push(widget.CustomCSSClass);
     }
     classes.push('container inner-page-sidebar');
     return classes;
   }
 
 
-  trackByFn(widget: Widget){
-    return widget.id;
+  trackByFn(widget: PageWidget){
+    return widget.Id;
   }
 
 }

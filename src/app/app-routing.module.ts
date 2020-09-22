@@ -7,26 +7,17 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/p'
-  },
-  {
-    path: 'p',
     component: PageBaseComponent,
-    canActivate: [AppReadyGuard],
+    canActivate: [AppReadyGuard]
   },
   {
-    path: 'p/:page',
-    component: PageBaseComponent,
-    canActivate: [AppReadyGuard],
-  },
-  {
-    path: 'p/:page/:model/:id',
+    path: ':page',
     component: PageBaseComponent,
     canActivate: [AppReadyGuard],
   },
   {
     path: '**',
-    redirectTo: '/p'
+    redirectTo: '/'
   }
 ];
 

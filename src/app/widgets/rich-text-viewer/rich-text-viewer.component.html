@@ -1,0 +1,20 @@
+<div class="row text-box">
+  <div class="col-12 widget-title-area mb-5" *ngIf="widget.ShowWidgetTitle === 'True'">
+      <h2 class="text-center">{{ widget.Name }}</h2>
+  </div>
+  <div class="col-12" [ngClass]="{'col-md-6': (widget.RichTextImage || widget.RichTextVideo)}">
+      <h5 *ngIf="widget.RichTextTitle">{{ widget.RichTextTitle }}</h5>
+      <div [innerHTML]="widget.RichText | trustHtml"></div>
+      <div class="my-3 text-center" *ngIf="widget.ButtonText">
+
+        <a [href]="widget.ButtonURL" class="btn" *ngIf="isExternal(widget.ButtonURL)">{{ widget.ButtonText }}</a>
+        <a [routerLink]="widget.ButtonURL" class="btn" *ngIf="!isExternal(widget.ButtonURL)">{{ widget.ButtonText }}</a>
+      </div>
+  </div>
+  <div class="col-12" [ngClass]="{'col-md-6': (widget.RichTextImage || widget.RichTextVideo)}" *ngIf="widget.RichTextImage || widget.RichTextVideo">
+      <img *ngIf="widget.RichTextImage" [src]="widget.RichTextImage | src" class="img-fluid">
+      <div class="embed-responsive embed-responsive-21by9" *ngIf="widget.RichTextVideo">
+        <iframe class="embed-responsive-item" [src]="widget.RichTextVideo"></iframe>
+      </div>
+  </div>
+</div>

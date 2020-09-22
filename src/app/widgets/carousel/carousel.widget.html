@@ -1,15 +1,8 @@
 <div class="d-block w-100 carousel-wrapper" [ngClass]="type">
-  <div class="row" *ngIf="status === 'loaded' && !config.hide_widget_title">
+  <div class="row" *ngIf="widget.ShowWidgetTitle === 'True'">
     <div class="col-12 widget-title-area">
-        <h2 class="text-center">{{ widget.title }}</h2>
-        <p class="text-center text-muted">{{ widget.text }}</p>
+        <h2 class="text-center">{{ widget.Name }}</h2>
     </div>
   </div>
     <div class="carousel" #carousel></div>
-    
-    <div class="loading-spinner" *ngIf="status === 'loading'">
-        <div class="spinner-area">
-            <span class="spinner round"></span>
-        </div>
-    </div>
 </div>

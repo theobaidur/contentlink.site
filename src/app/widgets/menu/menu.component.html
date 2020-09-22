@@ -1,0 +1,9 @@
+<ul class="nav flex-column">
+  <li class="nav-item" *ngIf="widget?.ShowWidgetTitle === 'True'">
+    <h3>{{ widget.Name }}</h3>
+  </li>
+  <li class="nav-item" *ngFor="let item of menu?.MenuItem">
+    <a *ngIf="isExternal(item)" [href]="item.URL" class="nav-link"></a>
+    <a *ngIf="!isExternal(item)" [routerLink]="item.URL" class="nav-link"></a>
+  </li>
+</ul>

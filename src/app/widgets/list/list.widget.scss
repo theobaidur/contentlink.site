@@ -1,0 +1,18 @@
+.media-area{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  img{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      transform: translate(-50%,-50%);
+  }
+}
+
+li{
+  overflow: hidden;
+}

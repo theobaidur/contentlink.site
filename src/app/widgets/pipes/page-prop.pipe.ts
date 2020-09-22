@@ -9,7 +9,6 @@ export class PagePropPipe implements PipeTransform {
     private dataService: AppDataService
   ){}
   transform(path: string) {
-    console.log(path);
     if(!path){
       return path;
     }

@@ -26,7 +26,8 @@
             "assets": [
               "src/favicon.png",
               "src/assets",
-              "src/.htaccess"
+              "src/.htaccess",
+              "src/dummy-data.json"
             ],
             "styles": [
               "src/styles.scss"

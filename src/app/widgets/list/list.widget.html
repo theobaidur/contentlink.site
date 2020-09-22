@@ -1,1 +1,25 @@
-<p>list works!</p>
+<ul class="list-unstyled">
+  <li class="position-relative" *ngIf="widget?.ShowWidgetTitle === 'True'">
+      <h3 class="mb-2">{{ widget.Name }}</h3>
+  </li>
+  <li class="mb-2" *ngFor="let item of data">
+    <div class="d-flex flex-row">
+      <span *ngIf="item.list_type === 'title-with-subtitle-image'" class="media-area mr-3">
+        <img [src]="item.image | src">
+      </span>
+      <div class="media-body">
+        <h5 class="mt-0 mb-1">{{ item.title }}</h5>
+        <p class="mb-1" *ngIf="item.list_type === 'title-with-subtitle' || item.list_type === 'title-with-subtitle-image'">
+            {{ item.sub_title | ellipse:40 }}
+        </p>
+        <a class="font-weight-bold" [routerLink]="url" [queryParams]="queryParam(item)" *ngIf="widget.ButtonText">{{ widget.ButtonText }}</a>
+      </div>
+    </div>
+  </li>
+  <li *ngIf="widget.EnablePagination === 'True' && hasMore">
+      <widget-btn btnClass="btn btn-sm btn-block font-weight-bold" (click)="loadMore()" label="Load More"></widget-btn>
+  </li>
+  <li *ngIf="!(widget.EnablePagination === 'True') && listPage">
+    <widget-btn btnClass="btn btn-sm btn-block font-weight-bold" [goto]="listPage?.PageURL" label="All"></widget-btn>
+</li>
+</ul>

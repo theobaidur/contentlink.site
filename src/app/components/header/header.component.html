@@ -1,19 +1,19 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="my-0 mr-md-auto font-weight-normal navbar-brand" [routerLink]="defaultPageUrl | async" *ngIf="icon | async">
-            <img [src]="icon | async | src" [alt]="title | async">
+        <a class="my-0 mr-md-auto font-weight-normal navbar-brand" [routerLink]="defaultPageUrl | async">
+            <img src="https://cms-dashboard.weartisansbd.com/storage/settings/August2020/LgygY3vgsi2iUQ8wXwlt.png">
         </a>
         <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
           <span class="navbar-toggler-icon"></span>
         </button>
-      
+
         <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
           <ul class="navbar-nav ml-auto">
-              <li class="nav-item" *ngFor="let item of menuItems | async" routerLinkActive="active">
-                  <a [routerLink]="item.url" class="nav-link font-weight-bold">{{ item.title }}</a>
+              <li class="nav-item" *ngFor="let item of menuItems | async" routerLinkActive="active" [routerLinkActiveOptions]="{'exact': true}">
+                  <a *ngIf="isExternal(item)" [href]="item.URL">{{ item.Name }}</a>
+                  <a *ngIf="!isExternal(item)" [routerLink]="item.URL" class="nav-link font-weight-bold">{{ item.Name }}</a>
               </li>
           </ul>
         </div>
       </nav>
 </header>
-  

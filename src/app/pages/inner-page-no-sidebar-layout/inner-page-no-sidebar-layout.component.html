@@ -1,10 +1,14 @@
-<widget-inner-page-title *ngIf="page?.page_config_parsed?.page_title" [title]="page?.page_config_parsed?.page_title" [sub_title]="page?.page_config_parsed?.page_description"></widget-inner-page-title>
-<div class="inner-page-container" [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets('body'); trackBy: trackByFn"> 
-    <widget-banner [widget]="widget" *ngIf="widget.widget_type === 'banner'"></widget-banner>
-    <widget-card [widget]="widget" *ngIf="widget.widget_type === 'card'"></widget-card>
-    <widget-carousel [widget]="widget" *ngIf="widget.widget_type === 'carousel'"></widget-carousel>
-    <widget-form [widget]="widget" *ngIf="widget.widget_type === 'form'"></widget-form>
-    <widget-list [widget]="widget" *ngIf="widget.widget_type === 'list'"></widget-list>
-    <widget-menu [widget]="widget" *ngIf="widget.widget_type === 'menu'"></widget-menu>
-    <widget-text-box [widget]="widget" *ngIf="widget.widget_type === 'text-box'"></widget-text-box>
+<widget-inner-page-title  [page]="page"></widget-inner-page-title>
+<div class="inner-page-container" [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets(); trackBy: trackByFn">
+  <div [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets(); trackBy: trackByFn">
+    <ng-container *ngIf="widget.DataType === dataType.EntityData">
+      <widget-card [widget]="widget" *ngIf="widget.Type === type.CardList"></widget-card>
+      <widget-carousel [widget]="widget" *ngIf="widget.Type === type.Carousel"></widget-carousel>
+      <widget-list [widget]="widget" *ngIf="widget.Type === type.List"></widget-list>
+      <widget-dynamic-detail-view [widget]="widget" *ngIf="widget.Type === type.DynamicDataView"></widget-dynamic-detail-view>
+    </ng-container>
+    <widget-rich-text-viewer [widget]="widget" *ngIf="widget.DataType === dataType.RichText"></widget-rich-text-viewer>
+    <widget-menu [widget]="widget" *ngIf="widget.DataType === dataType.Menu"></widget-menu>
+    <widget-custom-html [widget]="widget" *ngIf="widget.DataType === dataType.Html"></widget-custom-html>
+  </div>
 </div>

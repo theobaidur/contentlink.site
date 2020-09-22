@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppDataService } from 'src/app/services/app-data.service';
 import { filter, map } from 'rxjs/operators';
+import { MenuItem, Target } from 'src/json';
 
 @Component({
   selector: 'app-header',
@@ -30,17 +31,27 @@ export class HeaderComponent implements OnInit {
     )
   }
 
+  isExternal(item: MenuItem){
+    return item?.URL?.startsWith('http');
+  }
+
   get menuItems(){
-    return this.appData.initialSetting.pipe(
-      filter(data => data?.main_menu?.length > 0),
-      map(data=> data.main_menu)
+    return this.appData.data.pipe(
+      map(response=>{
+        return (response?.Menus?.[0]?.MenuItem || []).map(item=>{
+          if(item?.TargetURL === Target.Page){
+            const url = this.appData.data.getValue()?.Pages?.find(p=>p.Id === item.page)?.PageURL || '';
+            item.URL = url;
+          }
+          return item;
+        }).sort((a, b)=>a.Order - b.Order);
+      })
     )
   }
 
   get defaultPageUrl(){
-    return this.appData.initialSetting.pipe(
-      filter(data => !!data?.default_page),
-      map(data=> `/p/${data.default_page}`)
+    return this.appData.data.pipe(
+      map(r=>r?.Pages?.find(p=>p.HomePage === 'True')?.PageURL || '/')
     )
   }
 }
