@@ -4,10 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "prepare:deploy": "npm run build && ts-node zip.ts && git add . && git commit -m\"bundled for deploy\" && git push"
   },
   "private": true,
   "dependencies": {
@@ -41,9 +42,10 @@
     "@angular-devkit/build-angular": "~0.1000.2",
     "@angular/cli": "~10.0.2",
     "@angular/compiler-cli": "~10.0.3",
-    "@types/node": "^12.11.1",
+    "@papb/zip": "^3.0.0",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",

@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   apiRoot: 'https://cms-dashboard.weartisansbd.com',
-  dynamicRoot: 'https://extremecloudapi.azurewebsites.net',
-  authKey: 'dNLHPXg2uesG0b3t3tmL668DthQSF/hvTV8nSIdy7goqTuGyhpb4Ww=='
+  dynamicRoot: 'https://merpapi.azurewebsites.net',
+  authKey: 'i8C02vF4YJ2KKljgVjy7JhhnGet6itlFa5FxEP7kg3Pp5TsWNBfLaA=='
 };
 
 /*

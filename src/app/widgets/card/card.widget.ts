@@ -11,6 +11,7 @@ interface CardData{
   sub_title?: string;
   text?: string;
   card_type?: string;
+  display_order?: number;
 }
 @Component({
   selector: 'widget-card',
@@ -79,6 +80,7 @@ export class CardWidget implements OnInit, OnChanges {
         const titleField = fields.find(f=>f.Id === this.widget.TitleField)?.FieldName;
         const subTitleField = fields.find(f=>f.Id === this.widget.SubTitleField)?.FieldName;
         const textField = fields.find(f=>f.Id === this.widget.TextField)?.FieldName;
+
         let card_type: string = '';
         if(this.widget.CardType === CardType.Card){
           card_type = 'card-only';
@@ -96,8 +98,9 @@ export class CardWidget implements OnInit, OnChanges {
           title: each[titleField],
           sub_title: each[subTitleField],
           text: each[textField],
-          card_type
-        }));
+          card_type,
+          display_order: each.DisplayOrder ? +each.DisplayOrder : 0
+        })).sort((a, b)=>a.display_order - b.display_order);
         this.pageSize = +this.widget?.MaxItemPerPage || 4;
         this.lastPage = Math.ceil(this.data.length/this.pageSize);
       }

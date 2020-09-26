@@ -88,8 +88,9 @@ export class ListWidget implements OnInit, OnChanges {
           image: each[imageField],
           title: each[titleField],
           sub_title: each[subTitleField],
-          list_type
-        }));
+          list_type,
+          display_order: each.DisplayOrder ? +each.DisplayOrder : 0
+        })).sort((a, b)=>a.display_order - b.display_order);
         this.pageSize = +this.widget?.MaxItemPerPage || 4;
         this.lastPage = Math.ceil(this.data.length/this.pageSize);
       }

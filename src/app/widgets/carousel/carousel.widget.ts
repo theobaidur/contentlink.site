@@ -116,8 +116,9 @@ export class CarouselWidget implements OnInit {
           image: each[imageField],
           title: each[titleField],
           caption: each[captionField],
-          carousel_type
-        }));
+          carousel_type,
+          display_order: each.DisplayOrder ? +each.DisplayOrder : 0
+        })).sort((a, b)=>a.display_order - b.display_order);
       }
     }
   }
