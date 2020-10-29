@@ -102,6 +102,7 @@ export class CarouselWidget implements OnInit {
         const imageField = fields.find(f=>f.Id === this.widget.ImageField)?.FieldName;
         const titleField = fields.find(f=>f.Id === this.widget.TitleField)?.FieldName;
         const captionField = fields.find(f=>f.Id === this.widget.TextField)?.FieldName;
+        console.log({tmpData, imageField, titleField, captionField});
         let carousel_type: string = '';
         if(this.widget.CarouselType === CarouselType.FullWidth){
           carousel_type = 'full-width';

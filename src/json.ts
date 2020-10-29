@@ -85,8 +85,8 @@ export interface PageWidget{
   IconField?: string;
   RichTextTitle?:string;
   RichText?: string;
-  RichTextImage?: string;
-  RichTextVideo?: string;
+  RichTextBoxImageURL?: string;
+  RichTextBoxVideoURL?: string;
   Menu?: string;
   Html?: string;
   WidgetOrder?: number;

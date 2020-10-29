@@ -20,7 +20,7 @@ export class AppDataService {
     private http: HttpClient,
     private title: Title
   ) {
-    this.title.setTitle('MERP Systems');
+    this.title.setTitle('Common Point');
     const headers = new HttpHeaders({
       'x-functions-key': environment.authKey
     });

@@ -9,7 +9,7 @@ import { MenuItem, Target } from 'src/json';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  collapsed = false;
+  collapsed = true;
   constructor(
     private appData: AppDataService
   ) { }

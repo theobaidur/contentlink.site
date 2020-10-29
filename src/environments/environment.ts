@@ -1,12 +1,11 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import { commonConfig } from "./common";
 
 export const environment = {
   production: false,
-  apiRoot: 'https://cms-dashboard.weartisansbd.com',
-  dynamicRoot: 'https://extremecloudapi.azurewebsites.net',
-  authKey: 'dNLHPXg2uesG0b3t3tmL668DthQSF/hvTV8nSIdy7goqTuGyhpb4Ww=='
+  ...commonConfig
 };
 
 /*

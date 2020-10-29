@@ -12,6 +12,6 @@ export class RichTextViewerComponent implements OnInit {
 
   ngOnInit(): void {}
   isExternal(url: string){
-    return url.startsWith('http');
+    return (url || '').startsWith('http');
   }
 }

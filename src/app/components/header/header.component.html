@@ -1,19 +1,41 @@
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<div class="header bg-light">
+  <div class="container">
+    <div class="col-md-12 d-flex flex-row justify-content-between border-bottom py-1">
+      <ul class="navbar-nav flex-row">
+        <li class="nav-item mr-1">
+          <a href="mailto:brain.meeley@commonpoint.com" class="nav-link"><i class="far fa-envelope"></i> <span class="d-none d-md-inline ml-1">brain.meeley@commonpoint.com</span></a>
+        </li>
+        <li class="nav-item mr-1">
+          <a href="https://maps.google.com" class="nav-link"><i class="fas fa-map-marker"></i> <span class="d-none d-md-inline ml-1">12728 Falcon Drive, VA 22192</span></a>
+        </li>
+      </ul>
+      <ul class="navbar-nav flex-row ml-auto">
+        <li class="nav-item mx-1">
+          <a href="https://facebook.com" class="nav-link"><i class="fab fa-facebook"></i></a>
+        </li>
+        <li class="nav-item mx-1">
+          <a href="https://facebook.com" class="nav-link"><i class="fab fa-twitter"></i></a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-12">
+      <div class="navbar navbar-expand-md px-0">
         <a class="my-0 mr-md-auto font-weight-normal navbar-brand" [routerLink]="defaultPageUrl | async">
-            <img src="https://cms-dashboard.weartisansbd.com/storage/settings/August2020/LgygY3vgsi2iUQ8wXwlt.png">
-        </a>
-        <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+          <img src="../../../assets/logo.jpg">
+      </a>
+      <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+        <span class="fas fa-bars text-dark"></span>
+      </button>
 
-        <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
-          <ul class="navbar-nav ml-auto">
-              <li class="nav-item" *ngFor="let item of menuItems | async" routerLinkActive="active" [routerLinkActiveOptions]="{'exact': true}">
-                  <a *ngIf="isExternal(item)" [href]="item.URL">{{ item.Name }}</a>
-                  <a *ngIf="!isExternal(item)" [routerLink]="item.URL" class="nav-link font-weight-bold">{{ item.Name }}</a>
-              </li>
-          </ul>
-        </div>
-      </nav>
-</header>
+      <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" *ngFor="let item of menuItems | async" routerLinkActive="active" [routerLinkActiveOptions]="{'exact': true}">
+                <a *ngIf="isExternal(item)" [href]="item.URL">{{ item.Name }}</a>
+                <a *ngIf="!isExternal(item)" [routerLink]="item.URL" class="nav-link font-weight-bold">{{ item.Name }}</a>
+            </li>
+        </ul>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
