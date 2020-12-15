@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppDataService } from 'src/app/services/app-data.service';
 import { filter, map } from 'rxjs/operators';
+import { MenuItem, Target } from 'src/json';
 
 @Component({
   selector: 'app-footer',
@@ -17,14 +18,25 @@ export class FooterComponent implements OnInit {
   }
 
   get menuItems(){
-    return this.appData.initialSetting.pipe(
-      filter(data => data?.footer_menu?.length > 0),
-      map(data=> data.footer_menu)
+    return this.appData.data.pipe(
+      map(response=>{
+        return (response?.Menus?.find(a=>a.Name.toLowerCase().indexOf('footer') > -1).MenuItem || []).map(item=>{
+          if(item?.TargetURL === Target.Page){
+            const url = this.appData.data.getValue()?.Pages?.find(p=>p.Id === item.page)?.PageURL || '';
+            item.URL = url;
+          }
+          return item;
+        }).sort((a, b)=>a.Order - b.Order);
+      })
     )
   }
 
   absUrl(url: string){
     return url.startsWith('http');
+  }
+
+  isExternal(item: MenuItem){
+    return item?.URL?.startsWith('http');
   }
 
 }

@@ -2,7 +2,5 @@
   <div class="col-12 widget-title-area mb-5" *ngIf="widget.ShowWidgetTitle === 'True'">
       <h2 class="text-center">{{ widget?.Name }}</h2>
   </div>
-
-  <div class="col-12" [innerHTML]="widget?.Html | trustHtml" #htmlContainer>
-  </div>
 </div>
+<div [innerHTML]="widget?.Html | trustHtml" #htmlContainer></div>

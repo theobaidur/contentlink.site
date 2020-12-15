@@ -1,8 +1,6 @@
 <div class="d-block w-100 carousel-wrapper" [ngClass]="type">
-  <div class="row" *ngIf="widget.ShowWidgetTitle === 'True'">
-    <div class="col-12 widget-title-area">
-        <h2 class="text-center">{{ widget.Name }}</h2>
+    <div *ngIf="widget.ShowWidgetTitle === 'True'" class="col-12 widget-title-area">
+      <h2>{{ widget.Name }}</h2>
     </div>
-  </div>
     <div class="carousel" #carousel></div>
 </div>

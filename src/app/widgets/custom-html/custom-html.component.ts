@@ -16,6 +16,7 @@ export class CustomHtmlComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
+    console.log(this.widget);
     setTimeout(()=>{
       this.htmlContainer?.nativeElement?.querySelectorAll('script')?.forEach(script=>{
         eval(script.text);

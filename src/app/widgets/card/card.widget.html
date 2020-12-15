@@ -1,17 +1,17 @@
 <div class="row">
     <div class="col-12 widget-title-area" *ngIf="widget?.ShowWidgetTitle === 'True'">
-        <h2 class="text-center">{{ widget.Name }}</h2>
+        <h2>{{ widget.Name }}</h2>
     </div>
-    <div class="col-md-3 col-sm-6 col-12 mb-4" *ngFor="let card of data | slice:0:(currentPage * pageSize); trackBy: trackByFn">
+    <div class="col-sm-6 col-12 mb-4" *ngFor="let card of data | slice:0:(currentPage * pageSize); trackBy: trackByFn">
         <div class="card align-items-center" [ngClass]="card.card_type">
-            <div class="card-img-icon p-1">
+            <div class="card-img-icon card-body">
                 <i *ngIf="card.card_type === 'card-with-icon'" class="{{ card.icon }}"></i>
                 <img *ngIf="card.card_type === 'card-with-image' || card.card_type === 'card-with-thumb'" [src]="card.image | src">
             </div>
             <div class="card-body overflow-hidden d-flex flex-column w-100">
-                <h5 class="card-title" [ngClass]="{'text-truncate': card.card_type !== 'card-with-image'}" *ngIf="card.title">{{ card.title }}</h5>
-                <p *ngIf="card.sub_title" class="text-justified text-truncate text-muted">{{ card.sub_title }}</p>
-                <div *ngIf="card.text" class="text-justified text-truncate" [innerHTML]="card.text"></div>
+                <h5 class="card-title" *ngIf="card.title">{{ card.title }}</h5>
+                <p *ngIf="card.sub_title" class="text-justified text-muted">{{ card.sub_title }}</p>
+                <div *ngIf="card.text" class="text-justified" [innerHTML]="card.text"></div>
                 <div class="flex-grow-1 pb-2"></div>
                 <a *ngIf="(url | async) && widget.ButtonText" [routerLink]="url | async" [queryParams]="queryParam(card)" class="btn btn-sm btn-block">{{ widget.ButtonText }}</a>
             </div>

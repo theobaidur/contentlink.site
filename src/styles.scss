@@ -5,12 +5,13 @@ $fa-font-path:  "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
 
+@import 'variable';
 @import '~bootswatch/dist/pulse/variables';
 // @import '~bootstrap-material-design/scss/bootstrap-material-design.scss';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootswatch/dist/pulse/bootswatch';
 
-$cblue: #3763ea;
+$cblue: $color_1;
 
 
 $spinner-color: $cblue;
@@ -41,33 +42,23 @@ $yellow:  #ff851b;
 }
 
 body {
+  font-family: 'Lora', serif;
+  color: rgba(35,35,35,0.68);
     min-height: 100vh;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    color: $color_1;
+    font-weight: 700;
+  }
+  a{
+    font-family:  'Poppins', sans-serif;
+  }
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
 
 /* Carousel base class */
-.carousel {
-    margin-bottom: 4rem;
-  }
-  /* Since positioning the image, we need to help out the caption */
-  .carousel-caption {
-    bottom: 3rem;
-    z-index: 10;
-  }
-
-  /* Declare heights because of positioning of img element */
-  .carousel-item {
-    height: 32rem;
-  }
-  .carousel-item > img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-width: 100%;
-    height: 32rem;
-  }
 
 
   /* MARKETING CONTENT
@@ -433,6 +424,53 @@ body {
     text-align: center;
     .card-title{
       color: $dark;
+    }
+  }
+}
+
+
+.widget-title-area{
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 0;
+  h2{
+    line-height: 1;
+    margin-bottom: 0;
+  }
+  &::after{
+    content: '';
+    display: inline-block;
+    width: 100px;
+    height: 5px;
+    background: $color_1;
+  }
+}
+
+.features-section{
+  background: $color_1;
+  .contact-button {
+      padding: 35px 0;
+
+      span {
+        margin-right: 20px;
+        font-size: 21px;
+        line-height: 45px;
+        font-weight: 400;
+    }
+  }
+}
+
+.jobs-area{
+  background: url(assets/images/funfact-bg.jpg) center top/cover fixed;
+  .contact-button {
+      padding: 100px 0;
+
+      span {
+        margin: 10px;
+        font-size: 21px;
+        line-height: 45px;
+        font-weight: 400;
+
     }
   }
 }

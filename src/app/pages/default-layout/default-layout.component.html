@@ -5,6 +5,7 @@
     <widget-list [widget]="widget" *ngIf="widget.Type === type.List"></widget-list>
     <widget-dynamic-detail-view [widget]="widget" *ngIf="widget.Type === type.DynamicDataView"></widget-dynamic-detail-view>
   </ng-container>
+  <widget-custom-html  [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.DataType === dataType.Html"></widget-custom-html>
   <widget-rich-text-viewer [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.DataType === dataType.RichText"></widget-rich-text-viewer>
   <widget-menu [ngClass]="wrapperClass(widget)" [widget]="widget" *ngIf="widget.DataType === dataType.Menu"></widget-menu>
 </div>

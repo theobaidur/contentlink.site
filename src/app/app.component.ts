@@ -21,5 +21,18 @@ export class AppComponent {
     ).subscribe(()=>{
       window.scrollTo(0,0);
     });
+
+    document.addEventListener('click', e=>{
+      const target: HTMLElement = e.target as HTMLElement;
+      if(target.hasAttribute('dynamic-target')){
+        e.preventDefault();
+        const url = (e.target as HTMLElement).getAttribute('href');
+        try{
+          router.navigate([url]);
+        } catch(e){
+          console.log(e);
+        }
+      }
+    });
   }
 }

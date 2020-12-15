@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
   get menuItems(){
     return this.appData.data.pipe(
       map(response=>{
-        return (response?.Menus?.[0]?.MenuItem || []).map(item=>{
+        return (response?.Menus?.find(a=>a.Name.toLowerCase().indexOf('main') > -1)?.MenuItem || []).map(item=>{
           if(item?.TargetURL === Target.Page){
             const url = this.appData.data.getValue()?.Pages?.find(p=>p.Id === item.page)?.PageURL || '';
             item.URL = url;

@@ -21,7 +21,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   widgets(){
-    return this.page?.PageWidgets || [];
+    return this.page?.PageWidgets?.sort((a,b)=>(+a.WidgetOrder) - (+b.WidgetOrder)) || [];
   }
 
   wrapperClass(widget: PageWidget){
@@ -50,6 +50,8 @@ export class DefaultLayoutComponent implements OnInit {
     }
     if(widget.Type === Type.Carousel && widget.CarouselType === CarouselType.FullWidth){
       classes.push('container-fluid');
+    } else if(widget.DataType === DataType.Html){
+      // do not add any container class
     } else {
       classes.push('container');
     }
