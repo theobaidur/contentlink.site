@@ -51,7 +51,7 @@ export class CarouselWidget implements OnInit {
       items,
       slideBy: this.widget?.CarouselType === CarouselType.FullWidth ? 'page' : 1,
       mouseDrag: true,
-      autoplay: false,
+      autoplay: true,
       autoplayButton: false,
       autoplayButtonOutput: null,
       animateDelay: 2000,

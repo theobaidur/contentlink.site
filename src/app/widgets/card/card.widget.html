@@ -4,7 +4,7 @@
     </div>
     <div class="col-sm-6 col-12 mb-4" *ngFor="let card of data | slice:0:(currentPage * pageSize); trackBy: trackByFn">
         <div class="card align-items-center" [ngClass]="card.card_type">
-            <div class="card-img-icon card-body">
+            <div class="card-img-icon card-body" *ngIf="card.card_type !== 'card-only'">
                 <i *ngIf="card.card_type === 'card-with-icon'" class="{{ card.icon }}"></i>
                 <img *ngIf="card.card_type === 'card-with-image' || card.card_type === 'card-with-thumb'" [src]="card.image | src">
             </div>
