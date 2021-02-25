@@ -1,14 +1,14 @@
 <widget-inner-page-title  [page]="page"></widget-inner-page-title>
-<div class="inner-page-container" [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets(); trackBy: trackByFn">
-  <div [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets(); trackBy: trackByFn">
-    <ng-container *ngIf="widget.DataType === dataType.EntityData">
-      <widget-card [widget]="widget" *ngIf="widget.Type === type.CardList"></widget-card>
-      <widget-carousel [widget]="widget" *ngIf="widget.Type === type.Carousel"></widget-carousel>
-      <widget-list [widget]="widget" *ngIf="widget.Type === type.List"></widget-list>
-      <widget-dynamic-detail-view [widget]="widget" *ngIf="widget.Type === type.DynamicDataView"></widget-dynamic-detail-view>
+<div class="inner-page-container" [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets; trackBy: trackByFn">
+  <div [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets; trackBy: trackByFn">
+    <ng-container *ngIf="widget.data_type === dataType.EntityData">
+      <widget-card [widget]="widget" *ngIf="widget.type === widgetType.CardList"></widget-card>
+      <widget-carousel [widget]="widget" *ngIf="widget.type === widgetType.Carousel"></widget-carousel>
+      <widget-list [widget]="widget" *ngIf="widget.type === widgetType.List"></widget-list>
+      <widget-dynamic-detail-view [widget]="widget" *ngIf="widget.type === widgetType.DynamicDataView"></widget-dynamic-detail-view>
     </ng-container>
-    <widget-rich-text-viewer [widget]="widget" *ngIf="widget.DataType === dataType.RichText"></widget-rich-text-viewer>
-    <widget-menu [widget]="widget" *ngIf="widget.DataType === dataType.Menu"></widget-menu>
-    <widget-custom-html [widget]="widget" *ngIf="widget.DataType === dataType.Html"></widget-custom-html>
+    <widget-rich-text-viewer [widget]="widget" *ngIf="widget.data_type === dataType.RichText"></widget-rich-text-viewer>
+    <widget-menu [widget]="widget" *ngIf="widget.data_type === dataType.Menu"></widget-menu>
+    <widget-custom-html [widget]="widget" *ngIf="widget.data_type === dataType.Html"></widget-custom-html>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12 widget-title-area" *ngIf="widget?.ShowWidgetTitle === 'True'">
+    <div class="col-12 widget-title-area" *ngIf="widget?.show_widget_title">
         <h2 class="text-center">{{ widget.Name }}</h2>
     </div>
     <div class="col-md-3 col-sm-6 col-12 mb-4" *ngFor="let card of data | slice:0:(currentPage * pageSize); trackBy: trackByFn">
@@ -17,10 +17,10 @@
             </div>
         </div>
     </div>
-    <div class="col-12 d-flex flex-row justify-content-center" *ngIf="widget?.EnablePagination === 'True' && this.hasMore">
+    <div class="col-12 d-flex flex-row justify-content-center" *ngIf="widget?.enable_pagination && this.hasMore">
         <widget-btn btnClass="btn btn-lg" (click)="loadMore()" label="Load More"></widget-btn>
     </div>
-    <div class="col-12 d-flex flex-row justify-content-center" *ngIf="!(widget?.EnablePagination === 'True') && listPage">
+    <div class="col-12 d-flex flex-row justify-content-center" *ngIf="!(widget?.enable_pagination) && listPage">
       <widget-btn btnClass="btn btn-lg" [goto]="listPage?.PageURL" label="All"></widget-btn>
     </div>
 </div>

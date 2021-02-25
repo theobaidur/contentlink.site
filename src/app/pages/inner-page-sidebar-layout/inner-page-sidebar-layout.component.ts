@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataType, Page, PageWidget, Type, WidgetLocation } from 'src/json';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { map } from 'rxjs/operators';
+import { AppDataService } from 'src/app/services/app-data.service';
+import { DataType, Page, PageWidget, WidgetType, WidgetLocation } from 'src/json';
 
+@UntilDestroy()
 @Component({
   selector: 'app-inner-page-sidebar-layout',
   templateUrl: './inner-page-sidebar-layout.component.html',
@@ -8,61 +12,67 @@ import { DataType, Page, PageWidget, Type, WidgetLocation } from 'src/json';
 })
 export class InnerPageSidebarLayoutComponent implements OnInit {
   @Input() page: Page;
+  _widgets: PageWidget[] = [];
+  constructor(
+    private dataService: AppDataService
+  ) { }
 
-  constructor() { }
+  ngOnInit(): void {
+    this.dataService.data.pipe(
+      untilDestroyed(this),
+      map(({page_widgets})=>page_widgets.data.filter(({page})=>this.page && page === this.page.pageid))
+    ).subscribe(list=>{
+      this._widgets = list;
+    });
+  }
 
-  ngOnInit(): void {}
+  widgets(location: WidgetLocation){
+    return this._widgets.filter(({show_in})=>show_in === location)
+  }
 
   get locations(){
     return WidgetLocation;
   }
 
-  get type(){
-    return Type;
+  get widgetType(){
+    return WidgetType;
   }
 
   get dataType(){
     return DataType;
   }
 
-  widgets(location:WidgetLocation){
-    if(this.page && this.page.PageWidgets){
-      return this.page.PageWidgets.filter(w=>w.ShowIn === location);
-    }
-    return [];
-  }
-
   wrapperClass(widget: PageWidget){
     let type = '';
-    if(widget.DataType === DataType.EntityData){
-      if(widget.Type === Type.Carousel){
+    if(widget.data_type === DataType.EntityData){
+      if(widget.type === WidgetType.Carousel){
         type = 'carousel';
-      }if(widget.Type === Type.CardList){
+      }if(widget.type === WidgetType.CardList){
         type = 'card_list';
-      }if(widget.Type === Type.List){
+      }if(widget.type === WidgetType.List){
         type = 'list';
-      }if(widget.Type === Type.DynamicDataView){
+      }if(widget.type === WidgetType.DynamicDataView){
         type = 'dynamic-data-view';
       }
-    } else if(widget.DataType === DataType.RichText){
+    } else if(widget.data_type === DataType.RichText){
       type = 'rich-text';
-    } else if(widget.DataType === DataType.Menu){
+    } else if(widget.data_type === DataType.Menu){
       type = 'menu';
-    }else if(widget.DataType === DataType.Html){
+    }else if(widget.data_type === DataType.Html){
       type = 'html';
     }
 
     const classes = [`widget__${type}`];
-    if(widget.CustomCSSClass){
-      classes.push(widget.CustomCSSClass);
+    if(widget.custom_css_class){
+      classes.push(widget.custom_css_class);
     }
     classes.push('container inner-page-sidebar');
     return classes;
   }
 
 
-  trackByFn(widget: PageWidget){
-    return widget.Id;
+  trackByFn({page_widgetid}: PageWidget){
+    return page_widgetid;
   }
 
 }

@@ -24,10 +24,8 @@ export class AppDataService {
     const headers = new HttpHeaders({
       'x-functions-key': environment.authKey
     });
-    const url = `${environment.dynamicRoot}/api/getCMSMetaData`;
-    this.http.get<DynamicResponse>(url, {
-      headers
-    }).subscribe(response=>{
+    const url = `${environment.data}?client=cpc`;
+    this.http.get<DynamicResponse>(url).subscribe(response=>{
       this.data.next(response);
       this.appReady.next(true);
       this.appBusy.next(false);

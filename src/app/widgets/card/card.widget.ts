@@ -32,17 +32,17 @@ export class CardWidget implements OnInit, OnChanges {
   get url(){
     return this.dataService.data.pipe(
       map(d=>{
-        if(this.widget?.DynamicButtonURL === 'True' && this.detailPage){
-          return this.detailPage?.PageURL;
+        if(this.widget?.dynamic_button_url && this.detailPage){
+          return this.detailPage?.page_url;
         }
-        return this.widget?.ButtonURL;
+        return this.widget?.button_url;
       })
     )
   }
 
   queryParam(card: CardData){
     return {
-      entity: this.widget.Entity,
+      entity: this.widget.entity,
       id: card.id
     }
   }
@@ -61,34 +61,35 @@ export class CardWidget implements OnInit, OnChanges {
   }
   buildWidget(){
     // entity
-    const entityId = this.widget.Entity;
-    const entity = this.dataService.data.getValue().xEntities.find(e=>e.Id === entityId);
-    if(entity && entity.ListPage){
-      this.listPage = this.dataService.data.getValue()?.Pages?.find(p=>p.Id === entity.ListPage);
+    const entityId = this.widget.entity;
+    const entity = this.dataService.data.getValue().entities?.data?.find(e=>e.entityid === entityId);
+
+    if(entity && entity.list_page){
+      this.listPage = this.dataService.data.getValue()?.pages?.data?.find(p=>p.pageid === entity.list_page);
     }
-    if(entity && entity.DetailPage){
-      this.detailPage = this.dataService.data.getValue()?.Pages?.find(p=>p.Id === entity.DetailPage);
+    if(entity && entity.detail_page){
+      this.detailPage = this.dataService.data.getValue()?.pages?.data?.find(p=>p.pageid === entity.detail_page);
     }
-    let dataKey: string = entity.SystemEntityName;
+    let dataKey: string = entity.system_entity_name;
     if(dataKey){
       const tmpData = this.dataService.data.getValue()[dataKey];
       if(tmpData && Array.isArray(tmpData)){
         // we parse fields now
-        const fields = entity.EntityFields || [];
-        const iconField = fields.find(f=>f.Id === this.widget.IconField)?.FieldName;
-        const imageField = fields.find(f=>f.Id === this.widget.ImageField)?.FieldName;
-        const titleField = fields.find(f=>f.Id === this.widget.TitleField)?.FieldName;
-        const subTitleField = fields.find(f=>f.Id === this.widget.SubTitleField)?.FieldName;
-        const textField = fields.find(f=>f.Id === this.widget.TextField)?.FieldName;
+        const fields = this.dataService.data.getValue().entity_fields?.data?.filter(each=>each.entity === entity.entityid) || [];
+        const iconField = fields.find(f=>f.entity_fieldid === this.widget.icon_field)?.field_name;
+        const imageField = fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name;
+        const titleField = fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name;
+        const subTitleField = fields.find(f=>f.entity_fieldid === this.widget.sub_title_field)?.field_name;
+        const textField = fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name;
 
         let card_type: string = '';
-        if(this.widget.CardType === CardType.Card){
+        if(this.widget.card_type === CardType.Card){
           card_type = 'card-only';
-        } else if(this.widget.CardType === CardType.CardWithIcon){
+        } else if(this.widget.card_type === CardType.CardWithIcon){
           card_type = 'card-with-icon';
-        } else if(this.widget.CardType === CardType.CardWithImage){
+        } else if(this.widget.card_type === CardType.CardWithImage){
           card_type = 'card-with-image';
-        } else if(this.widget.CardType === CardType.CardWithThumb){
+        } else if(this.widget.card_type === CardType.CardWithThumb){
           card_type = 'card-with-thumb';
         }
         this.data = tmpData.map(each=>({
@@ -101,7 +102,7 @@ export class CardWidget implements OnInit, OnChanges {
           card_type,
           display_order: each.DisplayOrder ? +each.DisplayOrder : 0
         })).sort((a, b)=>a.display_order - b.display_order);
-        this.pageSize = +this.widget?.MaxItemPerPage || 4;
+        this.pageSize = +this.widget?.max_item_per_page || 4;
         this.lastPage = Math.ceil(this.data.length/this.pageSize);
       }
     }

@@ -30,24 +30,24 @@ export class DynamicDetailViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.pipe(
-      filter(param=> param.id && !!this.widget?.Entity),
+      filter(param=> param.id && !!this.widget?.entity),
       switchMap(params=>this.dataService.data.pipe(
         map(data=>{
           // entity
-          const entityId = this.widget.Entity;
-          const entity = data?.xEntities.find(e=>e.Id === entityId);
-          let dataKey: string = entity.SystemEntityName;
+          const entityId = this.widget.entity;
+          const entity = data?.entities?.data?.find(e=>e.entityid === entityId);
+          let dataKey: string = entity.system_entity_name;
           if(dataKey){
             const tmpData = this.dataService.data.getValue()[dataKey];
             if(tmpData && Array.isArray(tmpData)){
               const selectedData = tmpData.find(f=>f.Id === params.id)
               if(selectedData){
                 // we parse fields now
-                const fields = entity.EntityFields || [];
-                const imageField = fields.find(f=>f.Id === this.widget.ImageField)?.FieldName;
-                const titleField = fields.find(f=>f.Id === this.widget.TitleField)?.FieldName;
-                const subTitleField = fields.find(f=>f.Id === this.widget.SubTitleField)?.FieldName;
-                const textField = fields.find(f=>f.Id === this.widget.TextField)?.FieldName;
+                const fields = this.dataService.data.getValue().entity_fields?.data?.filter(each=>each.entity === entity.entityid) || [];
+                const imageField = fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name;
+                const titleField = fields.find(f=>f.entity_fieldid === this.widget.title_field)?.field_name;
+                const subTitleField = fields.find(f=>f.entity_fieldid === this.widget.sub_title_field)?.field_name;
+                const textField = fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name;
 
                 return {
                   image: selectedData[imageField],

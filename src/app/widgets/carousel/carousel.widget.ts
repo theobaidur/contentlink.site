@@ -32,11 +32,11 @@ export class CarouselWidget implements OnInit {
 
   get type(){
     let carousel_type: string = '';
-    if(this.widget.CarouselType === CarouselType.FullWidth){
+    if(this.widget.carousel_type === CarouselType.FullWidth){
       carousel_type = 'full-width';
-    } else if(this.widget.CarouselType === CarouselType.MultiImage){
+    } else if(this.widget.carousel_type === CarouselType.MultiImage){
       carousel_type = 'multi-image';
-    } else if(this.widget.CarouselType === CarouselType.MultiSlide){
+    } else if(this.widget.carousel_type === CarouselType.MultiSlide){
       carousel_type = 'multi-slide';
     }
     return carousel_type;
@@ -44,18 +44,18 @@ export class CarouselWidget implements OnInit {
   // multi-image, multi-slide, full-width
   get sliderConfig(): NgxTinySliderSettingsInterface{
     let items = 1;
-    if(this.widget?.CarouselType !== CarouselType.FullWidth){
+    if(this.widget?.carousel_type !== CarouselType.FullWidth){
       items = 4;
     }
     return {
       items,
-      slideBy: this.widget?.CarouselType === CarouselType.FullWidth ? 'page' : 1,
+      slideBy: this.widget?.carousel_type === CarouselType.FullWidth ? 'page' : 1,
       mouseDrag: true,
       autoplay: true,
       autoplayButton: false,
       autoplayButtonOutput: null,
       animateDelay: 2000,
-      gutter: this.widget?.CarouselType === CarouselType.FullWidth ? null : 10,
+      gutter: this.widget?.carousel_type === CarouselType.FullWidth ? null : 10,
       controls: false,
       controlsText: ['<i class="fas fa-chevron-left fa-2x"></i>', '<i class="fas fa-chevron-right fa-2x"></i>'],
       navPosition: 'bottom',
@@ -69,46 +69,46 @@ export class CarouselWidget implements OnInit {
     private zone: NgZone
   ) { }
   get url(){
-    if(this.widget?.DynamicButtonURL === 'True' && this.detailPage){
-      return this.detailPage?.PageURL;
+    if(this.widget?.dynamic_button_url && this.detailPage){
+      return this.detailPage?.page_url;
     }
-    return this.widget?.ButtonURL;
+    return this.widget?.button_url;
   }
 
   queryParam(carousel: CarouselData){
     return {
-      entity: this.widget.Entity,
+      entity: this.widget.entity,
       id: carousel.id
     }
   }
 
   ngOnInit() {
     // entity
-    const entityId = this.widget.Entity;
-    const entity = this.dataService.data.getValue().xEntities.find(e=>e.Id === entityId);
-    if(entity && entity.ListPage){
-      this.listPage = this.dataService.data.getValue()?.Pages?.find(p=>p.Id === entity.ListPage);
+    const entityId = this.widget.entity;
+    const entity = this.dataService.data.getValue().entities?.data?.find(e=>e.entityid === entityId);
+    if(entity && entity.list_page){
+      this.listPage = this.dataService.data.getValue()?.pages?.data?.find(p=>p.pageid === entity.list_page);
     }
-    if(entity && entity.DetailPage){
-      this.detailPage = this.dataService.data.getValue()?.Pages?.find(p=>p.Id === entity.DetailPage);
+    if(entity && entity.detail_page){
+      this.detailPage = this.dataService.data.getValue()?.pages?.data?.find(p=>p.pageid === entity.detail_page);
     }
-    let dataKey: string = entity.SystemEntityName;
+    let dataKey: string = entity.system_entity_name;
 
     if(dataKey){
       const tmpData = this.dataService.data.getValue()[dataKey];
       if(tmpData && Array.isArray(tmpData)){
         // we parse fields now
-        const fields = entity.EntityFields || [];
-        const imageField = fields.find(f=>f.Id === this.widget.ImageField)?.FieldName;
-        const titleField = fields.find(f=>f.Id === this.widget.TitleField)?.FieldName;
-        const captionField = fields.find(f=>f.Id === this.widget.TextField)?.FieldName;
+        const fields = this.dataService.data.getValue()?.entity_fields?.data?.filter(f=>f.entity === entity.entityid) || [];
+        const imageField = fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name;
+        const titleField = fields.find(f=>f.entity_fieldid === this.widget.title_field)?.field_name;
+        const captionField = fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name;
         console.log({tmpData, imageField, titleField, captionField});
         let carousel_type: string = '';
-        if(this.widget.CarouselType === CarouselType.FullWidth){
+        if(this.widget.carousel_type === CarouselType.FullWidth){
           carousel_type = 'full-width';
-        } else if(this.widget.CarouselType === CarouselType.MultiImage){
+        } else if(this.widget.carousel_type === CarouselType.MultiImage){
           carousel_type = 'multi-image';
-        } else if(this.widget.CarouselType === CarouselType.MultiSlide){
+        } else if(this.widget.carousel_type === CarouselType.MultiSlide){
           carousel_type = 'multi-slide';
         }
 
@@ -151,9 +151,9 @@ export class CarouselWidget implements OnInit {
             <img src="${src(r.image)}" />
           </div>
           <div class="caption">
-            ${r.title ? `<h1 class="mb-0 ${this.widget.CarouselType === CarouselType.FullWidth ? ``: `text-truncate`}">${r.title}</h1>`:``}
-            ${r.caption ? `<p class="${this.widget.CarouselType === CarouselType.FullWidth ? ``: `text-truncate`}">${r.caption}</p>`:``}
-            ${this.widget.ButtonText ? `<a class="btn btn-sm" onclick="onCarouselButtonClick(event)" href="javascript:void(0)" data-href="${this.url}" data-entity='${this.widget.Entity}' data-id='${r.id}'>${this.widget.ButtonText}</a>`: ``}
+            ${r.title ? `<h1 class="mb-0 ${this.widget.carousel_type === CarouselType.FullWidth ? ``: `text-truncate`}">${r.title}</h1>`:``}
+            ${r.caption ? `<p class="${this.widget.carousel_type === CarouselType.FullWidth ? ``: `text-truncate`}">${r.caption}</p>`:``}
+            ${this.widget.button_text ? `<a class="btn btn-sm" onclick="onCarouselButtonClick(event)" href="javascript:void(0)" data-href="${this.url}" data-entity='${this.widget.entity}' data-id='${r.id}'>${this.widget.button_text}</a>`: ``}
           </div>
         </div>
       `).join('');

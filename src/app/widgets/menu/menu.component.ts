@@ -11,27 +11,32 @@ import { Menu, MenuItem, PageWidget } from 'src/json';
 export class MenuComponent implements OnInit, OnChanges {
   @Input() widget: PageWidget;
   menu: Menu;
+
   constructor(
     private dataService: AppDataService
   ) { }
 
   isExternal(item: MenuItem){
-    return item?.URL?.startsWith('http');
+    return item?.url?.startsWith('http');
   }
 
   buildWidget(){
     const data = this.dataService.data.getValue();
-    this.menu = data?.Menus?.find(m=>m.Id === this.widget?.Menu);
+    this.menu = data?.menus?.data?.find(m=>m.menuid === this.widget?.menu);
   }
 
   ngOnInit(): void {
     this.dataService.data
     .pipe(
-      map(d=> d?.Menus?.find(m=>m.Id === this.widget?.Menu))
+      map(data=> data?.menus?.data?.find(m=>m.menuid === this.widget?.menu))
     )
     .subscribe(d=>{
       this.menu =d;
     });
+  }
+
+  get items(){
+    return this.dataService.data.getValue()?.menu_items?.data?.filter(e=>e.menu === this.menu?.menuid) || []
   }
 
   ngOnChanges(changes: SimpleChanges): void {

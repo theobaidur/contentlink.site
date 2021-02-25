@@ -1,5 +1,5 @@
 <ul class="list-unstyled">
-  <li class="position-relative" *ngIf="widget?.ShowWidgetTitle === 'True'">
+  <li class="position-relative" *ngIf="widget?.show_widget_title">
       <h3 class="mb-2">{{ widget.Name }}</h3>
   </li>
   <li class="mb-2" *ngFor="let item of data">
@@ -16,10 +16,10 @@
       </div>
     </div>
   </li>
-  <li *ngIf="widget.EnablePagination === 'True' && hasMore">
+  <li *ngIf="widget.enable_pagination && hasMore">
       <widget-btn btnClass="btn btn-sm btn-block font-weight-bold" (click)="loadMore()" label="Load More"></widget-btn>
   </li>
-  <li *ngIf="!(widget.EnablePagination === 'True') && listPage">
-    <widget-btn btnClass="btn btn-sm btn-block font-weight-bold" [goto]="listPage?.PageURL" label="All"></widget-btn>
+  <li *ngIf="!widget.enable_pagination && listPage">
+    <widget-btn btnClass="btn btn-sm btn-block font-weight-bold" [goto]="listPage?.page_url" label="All"></widget-btn>
 </li>
 </ul>

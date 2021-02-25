@@ -30,8 +30,8 @@
       <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item" *ngFor="let item of menuItems | async" routerLinkActive="active" [routerLinkActiveOptions]="{'exact': true}">
-                <a *ngIf="isExternal(item)" [href]="item.URL">{{ item.Name }}</a>
-                <a *ngIf="!isExternal(item)" [routerLink]="item.URL" class="nav-link font-weight-bold">{{ item.Name }}</a>
+                <a *ngIf="isExternal(item)" [href]="item.url">{{ item.name }}</a>
+                <a *ngIf="!isExternal(item)" [routerLink]="item.url" class="nav-link font-weight-bold">{{ item.name }}</a>
             </li>
         </ul>
       </div>

@@ -20,8 +20,8 @@ export class PageBaseComponent implements OnInit {
     this.route.params
     .pipe(
       switchMap(({page})=>this.appService.data.pipe(
-        map(response=> response.Pages.find(p=>{
-          return page ? `/${page}` === p.PageURL : p.HomePage === 'True'
+        map(response=> response?.pages?.data?.find(p=>{
+          return page ? `/${page}` === p.page_url : !!p.home_page;
         }))
       ))
     )

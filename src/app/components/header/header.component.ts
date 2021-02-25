@@ -32,26 +32,27 @@ export class HeaderComponent implements OnInit {
   }
 
   isExternal(item: MenuItem){
-    return item?.URL?.startsWith('http');
+    return item?.url?.startsWith('http');
   }
 
   get menuItems(){
     return this.appData.data.pipe(
       map(response=>{
-        return (response?.Menus?.[0]?.MenuItem || []).map(item=>{
-          if(item?.TargetURL === Target.Page){
-            const url = this.appData.data.getValue()?.Pages?.find(p=>p.Id === item.page)?.PageURL || '';
-            item.URL = url;
+        const menuId = response.menus?.data?.[0]?.menuid;
+        return (response.menu_items.data || []).filter(({menu})=> menu === menuId).map(item=>{
+          if(item.target_url === Target.Page){
+            const url = (response?.pages?.data || []).find(({pageid})=> pageid === item.page)?.page_url || '';
+            item.url = url;
           }
           return item;
-        }).sort((a, b)=>a.Order - b.Order);
+        })
       })
     )
   }
 
   get defaultPageUrl(){
     return this.appData.data.pipe(
-      map(r=>r?.Pages?.find(p=>p.HomePage === 'True')?.PageURL || '/')
+      map(r=>r?.pages?.data?.find(p=>!!p.home_page)?.page_url || '/')
     )
   }
 }

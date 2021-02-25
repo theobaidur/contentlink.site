@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CarouselType, DataType, Page, PageWidget, Type } from 'src/json';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { map } from 'rxjs/operators';
+import { AppDataService } from 'src/app/services/app-data.service';
+import { CarouselType, DataType, Page, PageWidget, WidgetType } from 'src/json';
 
+@UntilDestroy()
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
@@ -8,47 +12,53 @@ import { CarouselType, DataType, Page, PageWidget, Type } from 'src/json';
 })
 export class DefaultLayoutComponent implements OnInit {
   @Input() page: Page;
-  constructor() { }
+  widgets: PageWidget[] = [];
+  constructor(
+    private dataService: AppDataService
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dataService.data.pipe(
+      untilDestroyed(this),
+      map(({page_widgets})=>page_widgets.data.filter(({page})=>this.page && page === this.page.pageid))
+    ).subscribe(list=>{
+      this.widgets = list;
+    });
+  }
 
-  get type(){
-    return Type;
+  get widgetType(){
+    return WidgetType;
   }
 
   get dataType(){
     return DataType;
   }
 
-  widgets(){
-    return this.page?.PageWidgets || [];
-  }
-
   wrapperClass(widget: PageWidget){
     let type = '';
-    if(widget.DataType === DataType.EntityData){
-      if(widget.Type === Type.Carousel){
+    if(widget.data_type === DataType.EntityData){
+      if(widget.type === WidgetType.Carousel){
         type = 'carousel';
-      }if(widget.Type === Type.CardList){
+      }if(widget.type === WidgetType.CardList){
         type = 'card_list';
-      }if(widget.Type === Type.List){
+      }if(widget.type === WidgetType.List){
         type = 'list';
-      }if(widget.Type === Type.DynamicDataView){
+      }if(widget.type === WidgetType.DynamicDataView){
         type = 'dynamic-data-view';
       }
-    } else if(widget.DataType === DataType.RichText){
+    } else if(widget.data_type === DataType.RichText){
       type = 'rich-text';
-    } else if(widget.DataType === DataType.Menu){
+    } else if(widget.data_type === DataType.Menu){
       type = 'menu';
-    }else if(widget.DataType === DataType.Html){
+    }else if(widget.data_type === DataType.Html){
       type = 'html';
     }
 
     const classes = [`widget__${type}`];
-    if(widget.CustomCSSClass){
-      classes.push(widget.CustomCSSClass);
+    if(widget.custom_css_class){
+      classes.push(widget.custom_css_class);
     }
-    if(widget.Type === Type.Carousel && widget.CarouselType === CarouselType.FullWidth){
+    if(widget.type === WidgetType.Carousel && widget.carousel_type === CarouselType.FullWidth){
       classes.push('container-fluid');
     } else {
       classes.push('container');
@@ -56,7 +66,7 @@ export class DefaultLayoutComponent implements OnInit {
     return classes;
   }
 
-  trackByFn(widget: PageWidget){
-    return widget.Id;
+  trackByFn({page_widgetid}: PageWidget){
+    return page_widgetid;
   }
 }

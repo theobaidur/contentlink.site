@@ -11,24 +11,24 @@ export class InnerPageTitleComponent implements OnInit {
   @Input() page: Page;
 
   get styleWrapper(){
-    if(this.page?.BackgroundImage){
+    if(this.page?.background_image_url){
       return {
-        backgroundImage: `url(${src(this.page?.BackgroundImage)})`
+        backgroundImage: `url(${src(this.page?.background_image_url)})`
       }
     }
     return {}
   }
 
   get styleBg(){
-    return this.page?.BackgroundColor ? {backgroundColor: this.page?.BackgroundColor} : {}
+    return this.page?.background_color ? {backgroundColor: this.page?.background_color} : {}
   }
 
   get title(){
-    if(this.page?.Name){
-      return this.page.Name;
+    if(this.page?.name){
+      return this.page.name;
     }
-    if(this.page?.PageURL){
-      return this.page?.PageURL.substr(1)?.split('-').map(p=>`${p[0].toUpperCase()}${p.substr(1).toLowerCase()}`).join(' ');
+    if(this.page?.page_url){
+      return this.page?.page_url.substr(1)?.split('-').map(p=>`${p[0].toUpperCase()}${p.substr(1).toLowerCase()}`).join(' ');
     }
     return 'No Title';
   }

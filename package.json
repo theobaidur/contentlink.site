@@ -23,6 +23,7 @@
     "@angular/router": "~10.0.3",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
+    "@ngneat/until-destroy": "^8.0.4",
     "@types/lodash": "^4.14.159",
     "@types/toastr": "^2.1.38",
     "bootstrap": "^4.5.0",
