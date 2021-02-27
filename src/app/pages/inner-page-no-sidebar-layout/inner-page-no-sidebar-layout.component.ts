@@ -63,7 +63,7 @@ export class InnerPageNoSidebarLayoutComponent implements OnInit, OnChanges {
   }
 
 
-  trackByFn({page_widgetid}: PageWidget){
+  trackByFn(_: any,{page_widgetid}: PageWidget){
     return page_widgetid;
   }
 

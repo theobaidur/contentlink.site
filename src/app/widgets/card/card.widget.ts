@@ -56,7 +56,7 @@ export class CardWidget implements OnInit, OnChanges {
   }
 
 
-  trackByFn(card: CardData){
+  trackByFn(index: any, card: CardData){
     return card.id;
   }
   buildWidget(){

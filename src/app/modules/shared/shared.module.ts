@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CustomRouterLinkDirective } from '../../directives/custom-router-link.directive';
 import { SrcPipe } from '../../pipes/src.pipe';
+import { Base64Pipe } from '../../pipes/base64.pipe';
 
 
 
 @NgModule({
-  declarations: [CustomRouterLinkDirective, SrcPipe],
+  declarations: [CustomRouterLinkDirective, SrcPipe, Base64Pipe],
   imports: [
     CommonModule,
     RouterModule,
@@ -18,7 +19,8 @@ import { SrcPipe } from '../../pipes/src.pipe';
     RouterModule,
     FormsModule,
     CustomRouterLinkDirective,
-    SrcPipe
+    SrcPipe,
+    Base64Pipe
   ]
 })
 export class SharedModule { }

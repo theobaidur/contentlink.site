@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12 widget-title-area" *ngIf="widget?.show_widget_title">
-        <h2 class="text-center">{{ widget.Name }}</h2>
+        <h2 class="text-center">{{ widget.name }}</h2>
     </div>
     <div class="col-md-3 col-sm-6 col-12 mb-4" *ngFor="let card of data | slice:0:(currentPage * pageSize); trackBy: trackByFn">
         <div class="card align-items-center" [ngClass]="card.card_type">
@@ -13,7 +13,7 @@
                 <p *ngIf="card.sub_title" class="text-justified text-truncate text-muted">{{ card.sub_title }}</p>
                 <div *ngIf="card.text" class="text-justified text-truncate" [innerHTML]="card.text"></div>
                 <div class="flex-grow-1 pb-2"></div>
-                <a *ngIf="(url | async) && widget.ButtonText" [routerLink]="url | async" [queryParams]="queryParam(card)" class="btn btn-sm btn-block">{{ widget.ButtonText }}</a>
+                <a *ngIf="(url | async) && widget.button_text" [routerLink]="url | async" [queryParams]="queryParam(card)" class="btn btn-sm btn-block">{{ widget.button_text }}</a>
             </div>
         </div>
     </div>
@@ -21,6 +21,6 @@
         <widget-btn btnClass="btn btn-lg" (click)="loadMore()" label="Load More"></widget-btn>
     </div>
     <div class="col-12 d-flex flex-row justify-content-center" *ngIf="!(widget?.enable_pagination) && listPage">
-      <widget-btn btnClass="btn btn-lg" [goto]="listPage?.PageURL" label="All"></widget-btn>
+      <widget-btn btnClass="btn btn-lg" [goto]="listPage?.page_url" label="All"></widget-btn>
     </div>
 </div>

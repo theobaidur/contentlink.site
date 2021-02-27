@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'withBreak'
 })
 export class WithBreakPipe implements PipeTransform {
-  transform(value: string): unknown {
+  transform(value: string) {
     if(!value){
       return '';
     }

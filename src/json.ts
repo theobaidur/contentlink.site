@@ -60,6 +60,10 @@ export enum WidgetLocation{
 }
 
 export interface PageWidget{
+  button_1_text?: string,
+  button_2_text?: string,
+  button_1_url?: string,
+  button_2_url?: string,
   button_text?: string,
   button_url?: string,
   card_type?: CardType,
@@ -120,10 +124,34 @@ export interface Entity{
   system_entity_name?: string
 }
 
+export interface Settings{
+  name?: string,
+  description?: string,
+  value?: string,
+  file?: string,
+  image?: string,
+  settingsid?: string
+}
+
+export interface Certificate{
+  certificatesid?: string,
+  detail?: string,
+  image?: string,
+  name?: string
+}
+
+export interface Client{
+  clientsid?: string,
+  category?: string,
+  icon?: string,
+  name?: string
+  url?: string
+}
+
 export interface Project{
   name?: string,
   excerpt?: string,
-  image_url?: string,
+  project_image?: string,
   secondary_title?: string,
   projectid?: string
 }
@@ -132,34 +160,28 @@ export interface Service{
   name?: string,
   detail?: string,
   excerpt?: string,
-  icon?: string,
-  image_url?: string,
-  secondary_title?: string,
+  service_icon?: string,
   serviceid?: string
 }
 
 export interface SliderItem{
   name?: string,
   button_text?: string,
+  button_text_2?: string,
   button_url?: string,
-  image?: string,
+  button_url_2?: string,
+  slider_image?: string,
   slider_itemid?: string,
   text?: string,
   title?: string
 }
 
-export interface Partner{
-  name?: string,
-  category?: string,
-  excerpt?: string,
-  image_url?: string,
-  partnerid?: string
-}
 
 export interface Feature{
   featureid?: string,
-  icon?: string,
+  feature_icon?: string,
   text?: string
+  name?: string
 }
 
 
@@ -171,8 +193,10 @@ export interface DynamicResponse{
   menu_items: {data: MenuItem[], error?: boolean},
   pages: {data: Page[], error?: boolean},
   page_widgets: {data: PageWidget[], error?: boolean},
-  partners: {data: Partner[], error?: boolean},
   projects: {data: Project[], error?: boolean},
+  settingses: {data: Settings[], error?: boolean},
+  certificateses: {data: Certificate[], error?: boolean},
+  clientses: {data: Client[], error?: boolean},
   services: {data: Service[], error?: boolean},
   slider_items: {data: SliderItem[], error?: boolean},
 }

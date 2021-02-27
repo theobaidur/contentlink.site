@@ -1,6 +1,6 @@
 <ul class="list-unstyled">
   <li class="position-relative" *ngIf="widget?.show_widget_title">
-      <h3 class="mb-2">{{ widget.Name }}</h3>
+      <h3 class="mb-2">{{ widget.name }}</h3>
   </li>
   <li class="mb-2" *ngFor="let item of data">
     <div class="d-flex flex-row">
@@ -12,7 +12,7 @@
         <p class="mb-1" *ngIf="item.list_type === 'title-with-subtitle' || item.list_type === 'title-with-subtitle-image'">
             {{ item.sub_title | ellipse:40 }}
         </p>
-        <a class="font-weight-bold" [routerLink]="url" [queryParams]="queryParam(item)" *ngIf="widget.ButtonText">{{ widget.ButtonText }}</a>
+        <a class="font-weight-bold" [routerLink]="url" [queryParams]="queryParam(item)" *ngIf="widget.button_text">{{ widget.button_text }}</a>
       </div>
     </div>
   </li>

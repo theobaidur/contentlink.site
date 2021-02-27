@@ -71,7 +71,7 @@ export class InnerPageSidebarLayoutComponent implements OnInit {
   }
 
 
-  trackByFn({page_widgetid}: PageWidget){
+  trackByFn(_: any,{page_widgetid}: PageWidget){
     return page_widgetid;
   }
 

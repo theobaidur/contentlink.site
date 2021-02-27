@@ -1,6 +1,6 @@
 <ul class="nav flex-column">
-  <li class="nav-item" *ngIf="widget?.show_widget_title === 'True'">
-    <h3>{{ widget.Name }}</h3>
+  <li class="nav-item" *ngIf="widget?.show_widget_title">
+    <h3>{{ widget.name }}</h3>
   </li>
   <li class="nav-item" *ngFor="let item of items">
     <a *ngIf="isExternal(item)" [href]="item.url" class="nav-link"></a>

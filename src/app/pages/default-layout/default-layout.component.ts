@@ -66,7 +66,7 @@ export class DefaultLayoutComponent implements OnInit {
     return classes;
   }
 
-  trackByFn({page_widgetid}: PageWidget){
+  trackByFn(_: any, {page_widgetid}: PageWidget){
     return page_widgetid;
   }
 }

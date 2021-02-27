@@ -1,5 +1,5 @@
 <div [ngClass]="wrapperClass(widget)" *ngFor="let widget of widgets; trackBy: trackByFn">
-  <ng-container *ngIf="widget.DataType === dataType.EntityData">
+  <ng-container *ngIf="widget.data_type === dataType.EntityData">
     <widget-card [widget]="widget" *ngIf="widget.type === widgetType.CardList"></widget-card>
     <widget-carousel [widget]="widget" *ngIf="widget.type === widgetType.Carousel"></widget-carousel>
     <widget-list [widget]="widget" *ngIf="widget.type === widgetType.List"></widget-list>
