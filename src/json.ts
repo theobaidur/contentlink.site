@@ -100,7 +100,7 @@ export interface PageWidget{
 
 export interface Page{
   background_color?: string,
-  background_image_url?: string,
+  bg_image?: string,
   description?: string,
   has_sidebar?: boolean,
   home_page?: boolean,
@@ -130,6 +130,7 @@ export interface Settings{
   value?: string,
   file?: string,
   image?: string,
+  menu?: string,
   settingsid?: string
 }
 

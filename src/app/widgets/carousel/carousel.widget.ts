@@ -1,11 +1,13 @@
-import { Component, ViewEncapsulation, ViewChild, ElementRef, ChangeDetectorRef, Input, OnInit, NgZone } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, ElementRef, ChangeDetectorRef, Input, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { NgxTinySliderSettingsInterface } from 'ngx-tiny-slider';
 import { AppDataService } from 'src/app/services/app-data.service';
-import { map } from 'rxjs/operators';
-import { tns } from 'tiny-slider/src/tiny-slider';
-import { src } from '../util';
+import { filter } from 'rxjs/operators';
+import { TinySliderInstance, tns } from 'tiny-slider/src/tiny-slider';
 import { Router } from '@angular/router';
 import { CarouselType, Page, PageWidget } from 'src/json';
+import { BehaviorSubject } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { appendApiRoot, cleanClientPrefix } from 'src/app/util/helpers';
 
 interface CarouselData{
   id?: string;
@@ -13,7 +15,10 @@ interface CarouselData{
   title?: string;
   caption?: string;
   carousel_type?: string;
+  buttons?: {text: string, url: string}[];
 }
+
+@UntilDestroy()
 @Component({
   selector: 'widget-carousel',
   templateUrl: './carousel.widget.html',
@@ -23,12 +28,49 @@ interface CarouselData{
   },
   encapsulation: ViewEncapsulation.None
 })
-export class CarouselWidget implements OnInit {
+export class CarouselWidget implements OnInit, OnDestroy {
   @Input('widget') widget: PageWidget;
   @ViewChild('carousel') carousel: ElementRef<HTMLElement>;
+  carouselLoadStatus = new BehaviorSubject<{}>({});
+  carouselInstance: TinySliderInstance;
   slides: CarouselData[] = [];
   listPage: Page;
   detailPage: Page;
+
+  initSlider(){
+    if(this.slides && Array.isArray(this.slides)){
+      const template = this.slides.map(r=>`
+        <div class="tns-carousel-item">
+          <div class="image-container">
+            <img src="${appendApiRoot(r.image)}" />
+          </div>
+          <div class="caption ${r.title ? 'has-title' : ''} ${r.caption ? 'has-caption' : ''}">
+            ${r.title ? `<h1 class="mb-0 ${this.widget.carousel_type === CarouselType.FullWidth ? ``: `text-truncate`}">${r.title}</h1>`:``}
+            ${r.caption ? `<p class="${this.widget.carousel_type === CarouselType.FullWidth ? ``: `text-truncate`}">${r.caption}</p>`:``}
+            ${Array.isArray(r.buttons) ? r.buttons.map(({text, url})=>`<a class="btn btn-sm" onclick="onCarouselButtonClick(event)" href="javascript:void(0)" data-href="${url}" data-entity='${this.widget.entity}' data-id='${r.id}'>${text}</a>`).join('') : ``}
+          </div>
+        </div>
+      `).join('');
+      this.carousel.nativeElement.innerHTML = template;
+      this.carouselInstance = tns({
+        container: this.carousel.nativeElement,
+        ...this.sliderConfig,
+        onInit: ()=>{
+          this.cdr.detectChanges();
+        }
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if(this.carouselInstance){
+      this.carouselInstance.destroy();
+    }
+    this.carouselInstance = null;
+    this.carousel.nativeElement.innerHTML = '';
+    this.carouselLoadStatus.next({});
+  }
+
 
   get type(){
     let carousel_type: string = '';
@@ -67,7 +109,14 @@ export class CarouselWidget implements OnInit {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private zone: NgZone
-  ) { }
+  ) {
+    this.carouselLoadStatus.subscribe(({viewInit, dataLoaded}: any)=>{
+      if(viewInit && dataLoaded){
+        this.initSlider();
+      }
+    });
+  }
+
   get url(){
     if(this.widget?.dynamic_button_url && this.detailPage){
       return this.detailPage?.page_url;
@@ -92,36 +141,64 @@ export class CarouselWidget implements OnInit {
     if(entity && entity.detail_page){
       this.detailPage = this.dataService.data.getValue()?.pages?.data?.find(p=>p.pageid === entity.detail_page);
     }
-    let dataKey: string = entity.system_entity_name;
+    const fields = this.dataService.data.getValue()?.entity_fields?.data?.filter(f=>f.entity === entity.entityid) || [];
+    const imageField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name);
+    const titleField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.title_field)?.field_name);
+    const captionField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name);
 
-    if(dataKey){
-      const tmpData = this.dataService.data.getValue()[dataKey];
-      if(tmpData && Array.isArray(tmpData)){
-        // we parse fields now
-        const fields = this.dataService.data.getValue()?.entity_fields?.data?.filter(f=>f.entity === entity.entityid) || [];
-        const imageField = fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name;
-        const titleField = fields.find(f=>f.entity_fieldid === this.widget.title_field)?.field_name;
-        const captionField = fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name;
-        console.log({tmpData, imageField, titleField, captionField});
-        let carousel_type: string = '';
-        if(this.widget.carousel_type === CarouselType.FullWidth){
-          carousel_type = 'full-width';
-        } else if(this.widget.carousel_type === CarouselType.MultiImage){
-          carousel_type = 'multi-image';
-        } else if(this.widget.carousel_type === CarouselType.MultiSlide){
-          carousel_type = 'multi-slide';
+    const button_1_text = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.button_1_text)?.field_name);
+    const button_1_url = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.button_1_url)?.field_name);
+    const button_2_text = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.button_2_text)?.field_name);
+    const button_2_url = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.button_2_url)?.field_name);
+
+    let carousel_type: string = '';
+    if(this.widget.carousel_type === CarouselType.FullWidth){
+      carousel_type = 'full-width';
+    } else if(this.widget.carousel_type === CarouselType.MultiImage){
+      carousel_type = 'multi-image';
+    } else if(this.widget.carousel_type === CarouselType.MultiSlide){
+      carousel_type = 'multi-slide';
+    }
+    this.dataService.getWidgetDataList(this.widget).pipe(
+      untilDestroyed(this),
+      filter(list=> list && Array.isArray(list) && list.length > 0)
+    ).subscribe(list=>{
+
+      this.slides = list.map(each=>{
+        const buttons = [];
+        if(this.widget.button_text && this.widget.button_url){
+          buttons.push({
+            text: this.widget.button_text,
+            url: this.widget.button_url
+          });
         }
-
-        this.slides = tmpData.map(each=>({
-          id: each.Id,
+        if(each[button_1_text] && each[button_1_url]){
+          buttons.push({
+            text: each[button_1_text],
+            url: each[button_1_url]
+          });
+        }
+        if(each[button_2_text] && each[button_2_url]){
+          buttons.push({
+            text: each[button_2_text],
+            url: each[button_2_url]
+          });
+        }
+        return {
+          id: each.id,
           image: each[imageField],
           title: each[titleField],
           caption: each[captionField],
           carousel_type,
-          display_order: each.DisplayOrder ? +each.DisplayOrder : 0
-        })).sort((a, b)=>a.display_order - b.display_order);
-      }
-    }
+          buttons
+        }
+      });
+      const value = this.carouselLoadStatus.getValue() || {};
+      this.carouselLoadStatus.next({
+        ...value,
+        dataLoaded: true
+      });
+    });
   }
   ngAfterViewInit(): void {
     if(typeof window['onCarouselButtonClick'] === 'undefined'){
@@ -144,30 +221,11 @@ export class CarouselWidget implements OnInit {
         }
       }
     }
-    if(this.slides && Array.isArray(this.slides)){
-      const template = this.slides.map(r=>`
-        <div class="tns-carousel-item">
-          <div class="image-container">
-            <img src="${src(r.image)}" />
-          </div>
-          <div class="caption">
-            ${r.title ? `<h1 class="mb-0 ${this.widget.carousel_type === CarouselType.FullWidth ? ``: `text-truncate`}">${r.title}</h1>`:``}
-            ${r.caption ? `<p class="${this.widget.carousel_type === CarouselType.FullWidth ? ``: `text-truncate`}">${r.caption}</p>`:``}
-            ${this.widget.button_text ? `<a class="btn btn-sm" onclick="onCarouselButtonClick(event)" href="javascript:void(0)" data-href="${this.url}" data-entity='${this.widget.entity}' data-id='${r.id}'>${this.widget.button_text}</a>`: ``}
-          </div>
-        </div>
-      `).join('');
-      this.carousel.nativeElement.innerHTML = template;
-      tns({
-        container: this.carousel.nativeElement,
-        ...this.sliderConfig,
-        onInit: ()=>{
-          this.cdr.detectChanges();
-        }
-      });
-    } else {
-      this.cdr.detectChanges();
-    }
+    const value = this.carouselLoadStatus.getValue() || {};
+    this.carouselLoadStatus.next({
+      ...value,
+      viewInit: true
+    });
   }
 
 }

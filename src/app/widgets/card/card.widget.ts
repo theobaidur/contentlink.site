@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { AppDataService } from 'src/app/services/app-data.service';
+import { cleanClientPrefix } from 'src/app/util/helpers';
 import { CardType, Page, PageWidget } from 'src/json';
 
 interface CardData{
@@ -56,7 +57,7 @@ export class CardWidget implements OnInit, OnChanges {
   }
 
 
-  trackByFn(index: any, card: CardData){
+  trackByFn(_: any, card: CardData){
     return card.id;
   }
   buildWidget(){
@@ -70,42 +71,38 @@ export class CardWidget implements OnInit, OnChanges {
     if(entity && entity.detail_page){
       this.detailPage = this.dataService.data.getValue()?.pages?.data?.find(p=>p.pageid === entity.detail_page);
     }
-    let dataKey: string = entity.system_entity_name;
-    if(dataKey){
-      const tmpData = this.dataService.data.getValue()[dataKey];
-      if(tmpData && Array.isArray(tmpData)){
-        // we parse fields now
-        const fields = this.dataService.data.getValue().entity_fields?.data?.filter(each=>each.entity === entity.entityid) || [];
-        const iconField = fields.find(f=>f.entity_fieldid === this.widget.icon_field)?.field_name;
-        const imageField = fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name;
-        const titleField = fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name;
-        const subTitleField = fields.find(f=>f.entity_fieldid === this.widget.sub_title_field)?.field_name;
-        const textField = fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name;
+    const fields = this.dataService.data.getValue().entity_fields?.data?.filter(each=>each.entity === entity.entityid) || [];
+    const iconField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.icon_field)?.field_name);
+    const imageField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name);
+    const titleField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.title_field)?.field_name);
+    const subTitleField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.sub_title_field)?.field_name);
+    const textField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name);
 
-        let card_type: string = '';
-        if(this.widget.card_type === CardType.Card){
-          card_type = 'card-only';
-        } else if(this.widget.card_type === CardType.CardWithIcon){
-          card_type = 'card-with-icon';
-        } else if(this.widget.card_type === CardType.CardWithImage){
-          card_type = 'card-with-image';
-        } else if(this.widget.card_type === CardType.CardWithThumb){
-          card_type = 'card-with-thumb';
-        }
-        this.data = tmpData.map(each=>({
-          id: each.Id,
-          icon: each[iconField],
-          image: each[imageField],
-          title: each[titleField],
-          sub_title: each[subTitleField],
-          text: each[textField],
-          card_type,
-          display_order: each.DisplayOrder ? +each.DisplayOrder : 0
-        })).sort((a, b)=>a.display_order - b.display_order);
-        this.pageSize = +this.widget?.max_item_per_page || 4;
-        this.lastPage = Math.ceil(this.data.length/this.pageSize);
-      }
+    let card_type: string = '';
+    if(this.widget.card_type === CardType.Card){
+      card_type = 'card-only';
+    } else if(this.widget.card_type === CardType.CardWithIcon){
+      card_type = 'card-with-icon';
+    } else if(this.widget.card_type === CardType.CardWithImage){
+      card_type = 'card-with-image';
+    } else if(this.widget.card_type === CardType.CardWithThumb){
+      card_type = 'card-with-thumb';
     }
+    this.dataService.getWidgetDataList(this.widget).pipe(
+      filter(list=> list && Array.isArray(list))
+    ).subscribe(list=>{
+      this.data = list.map(each=>({
+        id: each.id,
+        icon: each[iconField],
+        image: each[imageField],
+        title: each[titleField],
+        sub_title: each[subTitleField],
+        text: each[textField],
+        card_type
+      }));
+      this.pageSize = +this.widget?.max_item_per_page || 4;
+      this.lastPage = Math.ceil(this.data.length/this.pageSize);
+    });
   }
   ngOnInit() {
 

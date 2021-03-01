@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { AppDataService } from 'src/app/services/app-data.service';
 import { DataType, Page, PageWidget, WidgetType, WidgetLocation } from 'src/json';
 
@@ -10,21 +11,28 @@ import { DataType, Page, PageWidget, WidgetType, WidgetLocation } from 'src/json
   templateUrl: './inner-page-sidebar-layout.component.html',
   styleUrls: ['./inner-page-sidebar-layout.component.scss']
 })
-export class InnerPageSidebarLayoutComponent implements OnInit {
+export class InnerPageSidebarLayoutComponent implements OnInit, OnChanges {
   @Input() page: Page;
   _widgets: PageWidget[] = [];
+  onPageChange = new Subject<Page>();
   constructor(
     private dataService: AppDataService
-  ) { }
-
-  ngOnInit(): void {
-    this.dataService.data.pipe(
+  ) {
+    this.onPageChange.pipe(
       untilDestroyed(this),
-      map(({page_widgets})=>page_widgets.data.filter(({page})=>this.page && page === this.page.pageid))
+      filter(page=> !!(page && page.pageid)),
+      map(({pageid})=>pageid),
+      distinctUntilChanged(),
+      switchMap(pageid=>this.dataService.data.pipe(
+        map(data=> data?.page_widgets?.data?.filter(({page})=>page && pageid === page) || [])
+      ))
     ).subscribe(list=>{
       this._widgets = list;
     });
+
   }
+
+  ngOnInit(): void {}
 
   widgets(location: WidgetLocation){
     return this._widgets.filter(({show_in})=>show_in === location)
@@ -73,6 +81,12 @@ export class InnerPageSidebarLayoutComponent implements OnInit {
 
   trackByFn(_: any,{page_widgetid}: PageWidget){
     return page_widgetid;
+  }
+
+  ngOnChanges({page}: SimpleChanges){
+    if(page){
+      this.onPageChange.next(page.currentValue);
+    }
   }
 
 }

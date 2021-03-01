@@ -121,118 +121,17 @@
 
 .carousel-wrapper.multi-slide .caption{
   padding: 0 15px;
-  height: 100px;
+  &.has-title{
+    height: 20px;
+  }
+  &.has-caption{
+    height: 60px;
+  }
+  &.has-title.has-caption{
+    height: 100px;
+  }
   line-height: 20px;
   text-align: center;
   h1{color: rgba($color: $primary, $alpha: 1.0); font-size: 16px;}
   a{color: rgba($color: $primary, $alpha: .8); font-size: 14px;}
 }
-
-// .carousel-wrapper{
-//     .caption{
-//         background: rgba($color: #106a8c, $alpha: 1);
-//         padding: 15px;
-
-//         h1{color: rgba($color: $white, $alpha: 1.0)}
-//         h3{color: rgba($color: $white, $alpha: .8)}
-//     }
-
-//     .widget-title-area{
-//         padding-top: 40px;
-//     }
-//     .loading-spinner{
-//         width: 100%;
-//     }
-//     position: relative;
-//     overflow: hidden;
-
-//     &.full-width,
-//     &.full-width .tns-item
-//     {
-//         .tns-outer,
-//         .carousel-item{
-//             height: 100vh;
-//         }
-//         img{
-//             min-width: 100%;
-//             min-height: 100%;
-//         }
-//         .caption{
-//             position: absolute;
-//             z-index: 11;
-//             left: 50px;
-//             top: 50%;
-//             transform: translateY(-50%);
-//             max-width: 400px;
-//             h3{
-//                 line-height: 1.5;
-//             }
-
-//         }
-//     }
-
-//     &.multi-slide,
-//     &.multi-slide .tns-item
-//     {
-//         padding-bottom: 50px;
-//         .tns-outer{
-//             height: 320px;
-//         }
-
-//         img{
-//             height: 220px;
-//         }
-
-//         .caption h3{
-//             font-size: 16px;
-//         }
-//         .caption p{
-//             font-size: 14px;
-//         }
-//     }
-
-//     &.multi-image,
-//     &.multi-image .tns-item
-//     {
-//         padding-bottom: 50px;
-//         .tns-outer,
-//         .tns-items{
-//             height: 170px;
-//         }
-
-//         img{
-//             max-height: 150px;
-//             max-width: 90%;
-//         }
-
-//         .caption{
-//             background: transparent;
-//         }
-
-//         .caption h1{
-//             text-align: center;
-//             font-size: 16px;
-//             margin-bottom: 0;
-//         }
-//         .caption p{
-//             font-size: 14px;
-//             display: none;
-//         }
-//     }
-
-
-
-//     &.multi-image .tns-item{
-
-//         >div{
-//             height: 150px;
-//         }
-//     }
-
-//     .tns-item{
-//         position: relative;
-//         overflow: hidden;
-//     }
-
-
-// }

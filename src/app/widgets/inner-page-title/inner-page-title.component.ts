@@ -11,9 +11,9 @@ export class InnerPageTitleComponent implements OnInit {
   @Input() page: Page;
 
   get styleWrapper(){
-    if(this.page?.background_image_url){
+    if(this.page?.bg_image){
       return {
-        backgroundImage: `url(${src(this.page?.background_image_url)})`
+        backgroundImage: `url(${src(this.page?.bg_image)})`
       }
     }
     return {}

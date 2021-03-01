@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Base64FileConverter } from '../services/base64-file-converter.service';
+import { from } from 'rxjs';
 @Pipe({
   name: 'base64'
 })
@@ -8,7 +9,7 @@ export class Base64Pipe implements PipeTransform {
     private base64Converter: Base64FileConverter
   ){}
   transform(src: string) {
-    return this.base64Converter.prependType(src);
+    return from(this.base64Converter.prependType(src));
   }
 
 }

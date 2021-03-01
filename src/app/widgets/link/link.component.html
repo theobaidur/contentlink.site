@@ -1,0 +1,2 @@
+<a *ngIf="isExternal" [href]="url"  [ngClass]="wClass">{{ text }}</a>
+<a *ngIf="!isExternal" [routerLink]="url" [ngClass]="wClass">{{ text }}</a>

@@ -13,6 +13,7 @@ export class Base64FileConverter{
       const {mime} = await fromBuffer(Buffer.from(input, 'base64'));
       return `data:${mime};base64, ${input}`;
     } catch(e){
+      console.log(e);
       return fallbackValue;
     }
   }

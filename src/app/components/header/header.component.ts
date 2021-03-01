@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppDataService } from 'src/app/services/app-data.service';
+import { SettingsManagerService } from 'src/app/services/settings-manager.service';
 import { filter, map } from 'rxjs/operators';
 import { MenuItem, Target } from 'src/json';
 
@@ -11,7 +12,8 @@ import { MenuItem, Target } from 'src/json';
 export class HeaderComponent implements OnInit {
   collapsed = true;
   constructor(
-    private appData: AppDataService
+    private appData: AppDataService,
+    public settings: SettingsManagerService
   ) { }
 
   ngOnInit(): void {
@@ -36,18 +38,7 @@ export class HeaderComponent implements OnInit {
   }
 
   get menuItems(){
-    return this.appData.data.pipe(
-      map(response=>{
-        const menuId = response.menus?.data?.[0]?.menuid;
-        return (response.menu_items.data || []).filter(({menu})=> menu === menuId).map(item=>{
-          if(item.target_url === Target.Page){
-            const url = (response?.pages?.data || []).find(({pageid})=> pageid === item.page)?.page_url || '';
-            item.url = url;
-          }
-          return item;
-        })
-      })
-    )
+    return this.settings.menu('primary_menu');
   }
 
   get defaultPageUrl(){

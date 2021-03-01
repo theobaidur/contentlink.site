@@ -19,15 +19,18 @@ import { MenuComponent } from '../../widgets/menu/menu.component';
 import { WithBreakPipe } from '../../widgets/pipes/with-break.pipe';
 import { TrustHtmlPipe } from '../../widgets/pipes/trust-html.pipe';
 import { CustomHtmlComponent } from '../../widgets/custom-html/custom-html.component';
+import { MenuItemComponent } from '../../widgets/menu-item/menu-item.component';
+import { LinkComponent } from '../../widgets/link/link.component';
+import { MenuLinkComponent } from '../../widgets/menu-link/menu-link.component';
 
 @NgModule({
-  declarations: [CardWidget, CarouselWidget, ListWidget, AdaptPipe, LinkDirective, BtnComponent, TrustUrlPipe, PagePropPipe, InnerPageTitleComponent, EllipsePipe, DynamicDetailViewComponent, RichTextViewerComponent, MenuComponent, WithBreakPipe, TrustHtmlPipe, CustomHtmlComponent],
+  declarations: [CardWidget, CarouselWidget, ListWidget, AdaptPipe, LinkDirective, BtnComponent, TrustUrlPipe, PagePropPipe, InnerPageTitleComponent, EllipsePipe, DynamicDetailViewComponent, RichTextViewerComponent, MenuComponent, WithBreakPipe, TrustHtmlPipe, TrustUrlPipe, CustomHtmlComponent, MenuItemComponent, LinkComponent, MenuLinkComponent],
   imports: [
     CommonModule,
     FormsModule,
     NgxTinySliderModule,
     SharedModule
   ],
-  exports: [CardWidget, CarouselWidget, ListWidget, InnerPageTitleComponent, DynamicDetailViewComponent, RichTextViewerComponent, MenuComponent, WithBreakPipe, TrustHtmlPipe, CustomHtmlComponent]
+  exports: [CardWidget, CarouselWidget, ListWidget, InnerPageTitleComponent, DynamicDetailViewComponent, RichTextViewerComponent, MenuComponent, WithBreakPipe, TrustHtmlPipe, TrustUrlPipe, CustomHtmlComponent, MenuItemComponent, LinkComponent, MenuLinkComponent]
 })
 export class WidgetBoxModule { }

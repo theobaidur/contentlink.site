@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { filter } from 'rxjs/operators';
 import { AppDataService } from 'src/app/services/app-data.service';
+import { cleanClientPrefix } from 'src/app/util/helpers';
 import { ListType, Page, PageWidget } from 'src/json';
 
 interface ListData{
@@ -10,6 +13,9 @@ interface ListData{
   sub_title?: string;
   list_type?: string;
 }
+
+
+@UntilDestroy()
 @Component({
   selector: 'widget-list',
   templateUrl: './list.widget.html',
@@ -62,38 +68,34 @@ export class ListWidget implements OnInit, OnChanges {
     if(entity && entity.detail_page){
       this.detailPage = this.dataService.data.getValue()?.pages?.data?.find(p=>p.pageid === entity.detail_page);
     }
-    let dataKey: string = entity.system_entity_name;
-    if(dataKey){
-      const tmpData = this.dataService.data.getValue()[dataKey];
-      if(tmpData && Array.isArray(tmpData)){
-        // we parse fields now
-        const fields = this.dataService.data.getValue()?.entity_fields?.data?.filter(f=>f.entity === entity.entityid) || [];
-        const iconField = fields.find(f=>f.entity_fieldid === this.widget.icon_field)?.field_name;
-        const imageField = fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name;
-        const titleField = fields.find(f=>f.entity_fieldid === this.widget.title_field)?.field_name;
-        const subTitleField = fields.find(f=>f.entity_fieldid === this.widget.sub_title_field)?.field_name;
-        let list_type: string = '';
-        if(this.widget.list_type === ListType.TitleOnly){
-          list_type = 'title-only';
-        } else if(this.widget.list_type === ListType.TitleWithSubtitle){
-          list_type = 'title-with-subtitle';
-        } else if(this.widget.list_type === ListType.TitleSubtitleImage){
-          list_type = 'title-with-subtitle-image';
-        }
-
-        this.data = tmpData.map(each=>({
-          id: each.Id,
-          icon: each[iconField],
-          image: each[imageField],
-          title: each[titleField],
-          sub_title: each[subTitleField],
-          list_type,
-          display_order: each.DisplayOrder ? +each.DisplayOrder : 0
-        })).sort((a, b)=>a.display_order - b.display_order);
-        this.pageSize = +this.widget?.max_item_per_page || 4;
-        this.lastPage = Math.ceil(this.data.length/this.pageSize);
-      }
+    const fields = this.dataService.data.getValue()?.entity_fields?.data?.filter(f=>f.entity === entity.entityid) || [];
+    const iconField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.icon_field)?.field_name);
+    const imageField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name);
+    const titleField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.title_field)?.field_name);
+    const subTitleField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.sub_title_field)?.field_name);
+    let list_type: string = '';
+    if(this.widget.list_type === ListType.TitleOnly){
+      list_type = 'title-only';
+    } else if(this.widget.list_type === ListType.TitleWithSubtitle){
+      list_type = 'title-with-subtitle';
+    } else if(this.widget.list_type === ListType.TitleSubtitleImage){
+      list_type = 'title-with-subtitle-image';
     }
+    this.dataService.getWidgetDataList(this.widget).pipe(
+      untilDestroyed(this),
+      filter(list=> Array.isArray(list) && list.length > 0)
+    ).subscribe(list=>{
+      this.data = list.map(each=>({
+        id: each.id,
+        icon: each[iconField],
+        image: each[imageField],
+        title: each[titleField],
+        sub_title: each[subTitleField],
+        list_type
+      }));
+      this.pageSize = +this.widget?.max_item_per_page || 4;
+      this.lastPage = Math.ceil(this.data.length/this.pageSize);
+    });
   }
   ngOnInit() {
 

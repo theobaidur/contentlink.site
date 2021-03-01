@@ -1,7 +1,9 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { AppDataService } from 'src/app/services/app-data.service';
+import { cleanClientPrefix } from 'src/app/util/helpers';
 import { PageWidget } from 'src/json';
 
 interface DetailViewData{
@@ -11,6 +13,7 @@ interface DetailViewData{
   image?: string;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'widget-dynamic-detail-view',
   templateUrl: './dynamic-detail-view.component.html',
@@ -24,43 +27,33 @@ export class DynamicDetailViewComponent implements OnInit {
   }
   constructor(
     private dataService: AppDataService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
+    private route: ActivatedRoute  ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(
-      filter(param=> param.id && !!this.widget?.entity),
-      switchMap(params=>this.dataService.data.pipe(
-        map(data=>{
-          // entity
-          const entityId = this.widget.entity;
-          const entity = data?.entities?.data?.find(e=>e.entityid === entityId);
-          let dataKey: string = entity.system_entity_name;
-          if(dataKey){
-            const tmpData = this.dataService.data.getValue()[dataKey];
-            if(tmpData && Array.isArray(tmpData)){
-              const selectedData = tmpData.find(f=>f.Id === params.id)
-              if(selectedData){
-                // we parse fields now
-                const fields = this.dataService.data.getValue().entity_fields?.data?.filter(each=>each.entity === entity.entityid) || [];
-                const imageField = fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name;
-                const titleField = fields.find(f=>f.entity_fieldid === this.widget.title_field)?.field_name;
-                const subTitleField = fields.find(f=>f.entity_fieldid === this.widget.sub_title_field)?.field_name;
-                const textField = fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name;
 
-                return {
-                  image: selectedData[imageField],
-                  title: selectedData[titleField],
-                  sub_title: selectedData[subTitleField],
-                  text: selectedData[textField],
-                }
+    this.route.queryParams.pipe(
+      untilDestroyed(this),
+      filter(({id, entity})=> !!(id && entity)),
+      switchMap(({id, entity})=>{
+        const fields = this.dataService.data.getValue().entity_fields?.data?.filter(each=>each.entity === entity) || [];
+        const imageField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.image_field)?.field_name);
+        const titleField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.title_field)?.field_name);
+        const subTitleField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.sub_title_field)?.field_name);
+        const textField = cleanClientPrefix(fields.find(f=>f.entity_fieldid === this.widget.text_field)?.field_name);
+        return this.dataService.getWidgetDataDetail(this.widget, id).pipe(
+          map(selectedData=>{
+            if(selectedData){
+              return {
+                image: selectedData[imageField],
+                title: selectedData[titleField],
+                sub_title: selectedData[subTitleField],
+                text: selectedData[textField],
               }
             }
-          }
-          return null;
-        })
-      ))
+            return selectedData;
+          })
+        )
+      })
     ).subscribe(result=>{
       if(result){
         this.data = result;

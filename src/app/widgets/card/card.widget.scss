@@ -1,3 +1,7 @@
+h5{
+  font-size: 1rem;
+  text-align: justify;
+}
 .widget-title-area{
     position: relative;
     padding-top: 50px;
@@ -19,12 +23,13 @@
         height: 100%;
         .card-img-icon{
             width: 100%;
+            text-align: center;
             img{
-                width: 100%;
+                max-width: 100%;
             }
         }
     }
-    
+
 }
 .card-image-icon-container{
     text-align: center;

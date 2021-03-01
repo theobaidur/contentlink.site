@@ -1,0 +1,11 @@
+/**
+This custom style should be uploaded from dashboard
+*/
+
+.service_lists .card-img-icon{
+  padding: 10px !important;
+}
+
+.service_lists .card-img-icon img{
+  max-width: 100px !important;
+}
