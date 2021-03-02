@@ -5,7 +5,8 @@ import { commonConfig } from "./common";
 
 export const environment = {
   production: false,
-  ...commonConfig
+  ...commonConfig,
+  apiRoot: 'http://127.0.0.1:3000'
 };
 
 /*

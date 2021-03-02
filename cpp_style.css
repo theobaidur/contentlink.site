@@ -1,6 +1,8 @@
 /**
-This custom style should be uploaded from dashboard
-*/
+  This css is not a part of angular project
+  This css has to inserted to cms dashboard
+  Keeping it here just keep track of it and ease of editing
+**/
 
 .service_lists .card-img-icon{
   padding: 10px !important;

@@ -36,6 +36,7 @@
     "query-string": "^6.13.1",
     "rxjs": "~6.5.5",
     "scss-spinners": "^1.2.10",
+    "sweetalert2": "^10.15.5",
     "tiny-slider": "git+https://github.com/theobaidur/tiny-slider.git",
     "toastr": "^2.1.4",
     "tslib": "^2.0.0",
